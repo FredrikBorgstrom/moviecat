@@ -13,6 +13,10 @@ class Store {
 
   // Settings
   List<String> folders = [];
+
+  /// Folders where only confidently recognised movies/TV are shown (set by
+  /// auto-discovery for folders that also hold home videos, tutorials, etc.).
+  Set<String> strictFolders = {};
   String tmdbKey = '';
   bool setupDone = false;
 
@@ -21,6 +25,9 @@ class Store {
 
   /// Keys the user matched by hand; never re-identified automatically.
   final Set<String> pinned = {};
+
+  /// Match score per parsed-name key (0 = searched, nothing found).
+  final Map<String, double> scores = {};
 
   /// The user's own ratings (1–10) keyed by MediaInfo.id.
   final Map<String, int> myRatings = {};
@@ -45,6 +52,7 @@ class Store {
     try {
       final j = jsonDecode(await _settingsFile.readAsString()) as Map<String, dynamic>;
       folders = ((j['folders'] as List?) ?? []).cast<String>();
+      strictFolders = ((j['strictFolders'] as List?) ?? []).cast<String>().toSet();
       tmdbKey = j['tmdbKey'] as String? ?? '';
       setupDone = j['setupDone'] as bool? ?? false;
     } catch (_) {}
@@ -54,12 +62,14 @@ class Store {
         matches[k as String] = v == null ? null : MediaInfo.fromJson((v as Map).cast());
       });
       pinned.addAll(((j['pinned'] as List?) ?? []).cast<String>());
+      (j['scores'] as Map? ?? {}).forEach((k, v) => scores[k as String] = (v as num).toDouble());
       (j['myRatings'] as Map? ?? {}).forEach((k, v) => myRatings[k as String] = v as int);
     } catch (_) {}
   }
 
   Future<void> saveSettings() => _write(_settingsFile, {
         'folders': folders,
+        'strictFolders': strictFolders.toList(),
         'tmdbKey': tmdbKey,
         'setupDone': setupDone,
       });
@@ -67,6 +77,7 @@ class Store {
   Future<void> saveLibrary() => _write(_libraryFile, {
         'matches': {for (final e in matches.entries) e.key: e.value?.toJson()},
         'pinned': pinned.toList(),
+        'scores': scores,
         'myRatings': myRatings,
       });
 

@@ -67,6 +67,11 @@ final _junk = RegExp(
   caseSensitive: false,
 );
 
+/// True if a name carries release-style tokens (1080p, BluRay, x264, …), which
+/// home videos and tutorials practically never have.
+bool hasReleaseTokens(String name) =>
+    _junk.hasMatch(name.replaceAll(RegExp(r'[._]+'), ' '));
+
 // Names that tell us nothing; fall back to the parent folder.
 final _genericName = RegExp(
   r'^(movie|film|video|main|feature|title\d*|vts \d+ \d+|cd ?\d|disc ?\d|part ?\d|\d{1,3})$',

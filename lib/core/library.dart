@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 
 import 'filename_parser.dart';
 import 'matcher.dart';
+import 'media_filter.dart';
 import 'models.dart';
 import 'providers/keyless.dart';
 import 'providers/tmdb.dart';
@@ -17,7 +18,10 @@ class MediaFile {
   final String path;
   final int size;
   final ParsedName parsed;
-  const MediaFile(this.path, this.size, this.parsed);
+
+  /// Comes from a strict folder: only shown if confidently recognised.
+  final bool strict;
+  const MediaFile(this.path, this.size, this.parsed, {this.strict = false});
 }
 
 /// One card in the library: a movie or show, with every file that belongs to it.
@@ -49,6 +53,7 @@ class _Group {
   final ParsedName parsed;
   final List<MediaFile> files = [];
   MediaInfo? info;
+  double score = 0;
   ItemStatus status = ItemStatus.pending;
   String? error;
   _Group(this.key, this.parsed);
@@ -79,6 +84,8 @@ class Library extends ChangeNotifier {
     final byId = <String, List<_Group>>{};
     final out = <LibraryItem>[];
     for (final g in _groups.values) {
+      // Strict-folder files stay hidden until they're confirmed as real titles.
+      if (g.status == ItemStatus.pending && g.files.every((f) => f.strict)) continue;
       if (g.info != null) {
         (byId[g.info!.id] ??= []).add(g);
       } else {
@@ -124,8 +131,28 @@ class Library extends ChangeNotifier {
     await scan();
   }
 
+  /// Adds several folders at once (from auto-discovery). Folders already
+  /// covered by a new, wider folder are replaced by it.
+  Future<void> addFolders(List<({String path, bool strict})> folders) async {
+    for (final f in folders) {
+      store.folders.removeWhere((e) => e == f.path || p.isWithin(f.path, e));
+      store.strictFolders.removeWhere((e) => e == f.path || p.isWithin(f.path, e));
+      store.folders.add(f.path);
+      if (f.strict) store.strictFolders.add(f.path);
+    }
+    await store.saveSettings();
+    await scan();
+  }
+
   Future<void> removeFolder(String path) async {
     store.folders.remove(path);
+    store.strictFolders.remove(path);
+    await store.saveSettings();
+    await scan();
+  }
+
+  Future<void> setFolderStrict(String path, bool strict) async {
+    strict ? store.strictFolders.add(path) : store.strictFolders.remove(path);
     await store.saveSettings();
     await scan();
   }
@@ -142,11 +169,19 @@ class Library extends ChangeNotifier {
     scanMessage = 'Looking for video files…';
     _changed();
 
-    final files = <MediaFile>[];
+    // Folders may overlap; a file seen from a non-strict folder is never filtered.
+    final byPath = <String, MediaFile>{};
     for (final folder in store.folders) {
-      files.addAll(await _listVideos(folder));
+      final strict = store.strictFolders.contains(folder);
+      for (final f in await _listVideos(folder, strict: strict)) {
+        final existing = byPath[f.path];
+        if (existing == null || (existing.strict && !strict)) byPath[f.path] = f;
+      }
       if (gen != _generation) return;
     }
+    // In strict folders, drop obvious non-movies before doing any lookups.
+    final files = byPath.values
+        .where((f) => !f.strict || (f.size >= minMediaBytes && !looksPersonal(f.path)));
 
     final old = Map.of(_groups);
     _groups.clear();
@@ -154,17 +189,25 @@ class Library extends ChangeNotifier {
       final g = _groups[f.parsed.queryKey] ??= _Group(f.parsed.queryKey, f.parsed);
       g.files.add(f);
     }
-    for (final g in _groups.values) {
+    for (final g in _groups.values.toList()) {
       final cached = store.matches[g.key];
       final prev = old[g.key];
       if (cached != null && (!refresh || store.pinned.contains(g.key))) {
         g.info = cached;
+        g.score = store.pinned.contains(g.key) ? 100 : store.scores[g.key] ?? 100;
         g.status = ItemStatus.matched;
+        _applyStrict(g);
       } else if (prev != null && prev.status == ItemStatus.unmatched && !refresh) {
         g.status = ItemStatus.unmatched;
       }
     }
 
+    // Strict-only groups that were already looked up without a match: drop them
+    // instead of searching again on every scan.
+    if (!refresh) {
+      _groups.removeWhere((key, g) =>
+          g.info == null && g.files.every((f) => f.strict) && store.scores.containsKey(key));
+    }
     final queue = _groups.values.where((g) => g.status == ItemStatus.pending).toList();
     progressTotal = queue.length;
     scanMessage = queue.isEmpty ? null : 'Identifying titles…';
@@ -176,10 +219,13 @@ class Library extends ChangeNotifier {
       while (queue.isNotEmpty && gen == _generation) {
         final g = queue.removeAt(0);
         try {
-          final info = await matcher.identify(g.parsed);
-          g.info = info;
-          g.status = info == null ? ItemStatus.unmatched : ItemStatus.matched;
-          if (info != null) store.matches[g.key] = info;
+          final r = await matcher.identifyScored(g.parsed);
+          g.info = r.info;
+          g.score = r.score;
+          g.status = r.info == null ? ItemStatus.unmatched : ItemStatus.matched;
+          store.scores[g.key] = r.score;
+          if (r.info != null) store.matches[g.key] = r.info;
+          _applyStrict(g);
         } catch (e) {
           g.status = ItemStatus.error;
           g.error = '$e';
@@ -202,7 +248,30 @@ class Library extends ChangeNotifier {
     _changed();
   }
 
-  Future<List<MediaFile>> _listVideos(String root) async {
+  /// Removes strict-folder files that aren't confidently recognised.
+  void _applyStrict(_Group g) {
+    if (!g.files.any((f) => f.strict)) return;
+    g.files.removeWhere((f) =>
+        f.strict && (g.info == null || !isConfidentMatch(f.path, f.parsed, g.score)));
+    if (g.files.isEmpty) _groups.remove(g.key);
+  }
+
+  /// Identifies a parsed name, using the cache when possible. Used by discovery.
+  Future<({MediaInfo? info, double score})> identifyCached(
+      ParsedName parsed, Matcher matcher) async {
+    final key = parsed.queryKey;
+    final cached = store.matches[key];
+    if (cached != null && store.pinned.contains(key)) return (info: cached, score: 100.0);
+    final score = store.scores[key];
+    if (score != null) return (info: cached, score: score);
+    if (cached != null) return (info: cached, score: 100.0);
+    final r = await matcher.identifyScored(parsed);
+    store.scores[key] = r.score;
+    if (r.info != null) store.matches[key] = r.info;
+    return r;
+  }
+
+  Future<List<MediaFile>> _listVideos(String root, {bool strict = false}) async {
     final out = <MediaFile>[];
     final done = Completer<void>();
     final pending = <Future<void>>[];
@@ -216,7 +285,7 @@ class Library extends ChangeNotifier {
           final lower = e.path.toLowerCase();
           final isSample = RegExp(r'(^|[^a-z])sample([^a-z]|$)').hasMatch(lower);
           if (isSample && size < 400 * 1024 * 1024) return;
-          out.add(MediaFile(e.path, size, parseFileName(e.path)));
+          out.add(MediaFile(e.path, size, parseFileName(e.path), strict: strict));
         }, onError: (_) {}));
       },
       onError: (_) {}, // unreadable sub-folders: skip them
@@ -236,6 +305,7 @@ class Library extends ChangeNotifier {
     final info = await provider.details(c);
     for (final key in item.keys) {
       store.matches[key] = info;
+      store.scores[key] = 100;
       store.pinned.add(key);
       final g = _groups[key];
       if (g != null) {

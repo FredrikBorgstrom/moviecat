@@ -47,7 +47,7 @@ class _SetupPageState extends State<SetupPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Icon(Icons.movie_filter_rounded, size: 64, color: c.primary),
+                Image.asset('assets/images/logo.png', height: 160),
                 const SizedBox(height: 16),
                 Text('Welcome to MovieCat', style: t.headlineMedium, textAlign: TextAlign.center),
                 const SizedBox(height: 8),

@@ -10,12 +10,20 @@ class Matcher {
 
   static const minScore = 35.0;
 
-  Future<MediaInfo?> identify(ParsedName parsed) async {
+  /// Score at or above which a match is trusted even without other evidence.
+  static const confidentScore = 72.0;
+
+  Future<MediaInfo?> identify(ParsedName parsed) async =>
+      (await identifyScored(parsed)).info;
+
+  /// Like [identify], but also returns the match score (0 when nothing matched).
+  Future<({MediaInfo? info, double score})> identifyScored(ParsedName parsed) async {
     final best = await bestCandidate(parsed);
-    return best == null ? null : provider.details(best);
+    if (best == null) return (info: null, score: 0.0);
+    return (info: await provider.details(best.candidate), score: best.score);
   }
 
-  Future<Candidate?> bestCandidate(ParsedName parsed) async {
+  Future<({Candidate candidate, double score})?> bestCandidate(ParsedName parsed) async {
     if (parsed.title.isEmpty) return null;
     final words = parsed.title.split(' ');
     // Try the full title first, then with the year, then progressively shorter
@@ -36,7 +44,9 @@ class Matcher {
           if (titleScore(parsed.title, c.title) >= 24 || (qi == 0 && i == 0))
             (c, score(parsed, c))
       ]..sort((a, b) => b.$2.compareTo(a.$2));
-      if (scored.isNotEmpty && scored.first.$2 >= minScore) return scored.first.$1;
+      if (scored.isNotEmpty && scored.first.$2 >= minScore) {
+        return (candidate: scored.first.$1, score: scored.first.$2);
+      }
     }
     return null;
   }

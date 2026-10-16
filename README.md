@@ -7,6 +7,7 @@ A desktop app for **macOS, Windows and Linux** that scans your folders for movie
 ## Features
 
 - Add any number of folders; they're scanned recursively for video files (`.mkv`, `.mp4`, `.avi`, `.mov`, `.m4v`, `.iso`, …).
+- **Find movies automatically**: searches your home folder and external drives, checks every video against IMDb, and proposes the folders that hold movies or TV shows. Home videos, screen recordings, phone clips and tutorials are left out. Folders that mix movies with other videos are added in *strict* mode (filter icon on the folder chip): only recognised titles are shown, also for files added later. Click a folder chip to switch strict mode on or off.
 - Understands typical release names:
   - `The.Matrix.1999.1080p.BluRay.x264-GROUP.mkv` → *The Matrix* (1999)
   - `Breaking.Bad.S01E02.720p.mkv`, `the office 2x05.avi` → TV episodes, grouped per show
@@ -76,6 +77,8 @@ lib/core/filename_parser.dart   file name → title / year / season / episode
 lib/core/matcher.dart           scores search results and picks the best match
 lib/core/providers/             keyless (IMDb + Cinemeta + TVmaze) and TMDB sources
 lib/core/library.dart           folder scanning, grouping, caching
+lib/core/discovery.dart         "Find movies automatically"
+lib/core/media_filter.dart      tells movies/episodes apart from home videos and tutorials
 lib/core/store.dart             settings and cache (JSON in the app data folder)
 lib/ui/                         setup screen, library grid, detail and settings dialogs
 ```
