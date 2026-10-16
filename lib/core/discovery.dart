@@ -7,6 +7,7 @@ import 'filename_parser.dart';
 import 'library.dart';
 import 'matcher.dart';
 import 'media_filter.dart';
+import 'platform_access.dart';
 
 /// A folder that auto-discovery suggests adding.
 class DiscoveredFolder {
@@ -67,7 +68,7 @@ class Discovery {
 
   static const _maxDepth = 8;
 
-  static final _home = Platform.environment[Platform.isWindows ? 'USERPROFILE' : 'HOME'] ?? '';
+  static String get _home => PlatformAccess.home;
 
   // Folder names never worth descending into.
   static const _skipNames = {

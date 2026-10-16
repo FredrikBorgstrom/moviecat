@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../core/filename_parser.dart';
 import '../core/library.dart';
 import '../core/models.dart';
+import '../core/platform_access.dart';
 import 'widgets.dart';
 
 class DetailDialog extends StatelessWidget {
@@ -151,7 +152,7 @@ class _FileTile extends StatelessWidget {
 
   Future<void> _reveal() async {
     if (Platform.isMacOS) {
-      await Process.run('open', ['-R', file.path]);
+      await PlatformAccess.reveal(file.path);
     } else if (Platform.isWindows) {
       await Process.run('explorer', ['/select,', file.path]);
     } else {

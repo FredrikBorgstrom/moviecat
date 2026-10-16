@@ -48,6 +48,10 @@ Prebuilt apps are attached to each [release](https://github.com/FredrikBorgstrom
 - **Windows**: `MovieCat-windows-x64.zip`, unzip and run `moviecat.exe`.
 - **Linux**: `MovieCat-linux-x64.tar.gz`, extract and run `./moviecat` (needs GTK 3).
 
+## Mac App Store
+
+The macOS app is sandboxed so it can ship on the Mac App Store (bundle ID `com.abcx3.moviecat`). Inside the sandbox MovieCat can only read folders you pick, and it remembers them between launches. "Find movies automatically" therefore asks which folders or drives to search first. See [appstore/README.md](appstore/README.md) for the release steps.
+
 ## Building from source
 
 Requires [Flutter](https://docs.flutter.dev/get-started/install) (stable channel) plus the desktop toolchain for your OS (Xcode on macOS, Visual Studio with "Desktop development with C++" on Windows, `clang cmake ninja-build pkg-config libgtk-3-dev` on Linux).

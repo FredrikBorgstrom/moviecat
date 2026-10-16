@@ -8,6 +8,7 @@ import 'filename_parser.dart';
 import 'matcher.dart';
 import 'media_filter.dart';
 import 'models.dart';
+import 'platform_access.dart';
 import 'providers/keyless.dart';
 import 'providers/tmdb.dart';
 import 'store.dart';
@@ -124,8 +125,37 @@ class Library extends ChangeNotifier {
 
   // ---- Folders ----
 
+  /// macOS sandbox: remembers access to a folder the user picked, so it can
+  /// still be read after the app restarts.
+  Future<void> grantAccess(String path) async {
+    final b = await PlatformAccess.bookmark(path);
+    if (b == null) return;
+    store.bookmarks[path] = b;
+    await store.saveSettings();
+  }
+
+  /// macOS sandbox: regains access to all previously granted folders.
+  Future<void> restoreAccess() async {
+    var changed = false;
+    for (final e in store.bookmarks.entries.toList()) {
+      final r = await PlatformAccess.resolve(e.value);
+      if (r == null) continue;
+      if (r.path != e.key || r.stale) {
+        // The folder was moved or renamed: follow it.
+        store.bookmarks.remove(e.key);
+        store.bookmarks[r.path] = (await PlatformAccess.bookmark(r.path)) ?? e.value;
+        final i = store.folders.indexOf(e.key);
+        if (i >= 0) store.folders[i] = r.path;
+        if (store.strictFolders.remove(e.key)) store.strictFolders.add(r.path);
+        changed = true;
+      }
+    }
+    if (changed) await store.saveSettings();
+  }
+
   Future<void> addFolder(String path) async {
     if (store.folders.contains(path)) return;
+    await grantAccess(path);
     store.folders.add(path);
     await store.saveSettings();
     await scan();
@@ -147,6 +177,8 @@ class Library extends ChangeNotifier {
   Future<void> removeFolder(String path) async {
     store.folders.remove(path);
     store.strictFolders.remove(path);
+    // Keep the bookmark if another library folder lives inside this one.
+    if (!store.folders.any((f) => p.isWithin(path, f))) store.bookmarks.remove(path);
     await store.saveSettings();
     await scan();
   }

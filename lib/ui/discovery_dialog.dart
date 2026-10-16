@@ -1,7 +1,9 @@
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 
 import '../core/discovery.dart';
 import '../core/library.dart';
+import '../core/platform_access.dart';
 
 /// Runs auto-discovery and lets the user pick which proposed folders to add.
 class DiscoveryDialog extends StatefulWidget {
@@ -18,10 +20,27 @@ class _DiscoveryDialogState extends State<DiscoveryDialog> {
   final _selected = <String>{};
   String? _error;
 
+  /// In the macOS sandbox the user must first pick where we may search.
+  late bool _needsPermission = PlatformAccess.sandboxed;
+
   @override
   void initState() {
     super.initState();
-    _run();
+    if (!_needsPermission) _run();
+  }
+
+  Future<void> _chooseRoots() async {
+    final paths = await getDirectoryPaths(
+      initialDirectory: PlatformAccess.home,
+      confirmButtonText: 'Search here',
+    );
+    final roots = paths.whereType<String>().toList();
+    if (roots.isEmpty) return;
+    for (final r in roots) {
+      await widget.library.grantAccess(r);
+    }
+    setState(() => _needsPermission = false);
+    _run(roots: roots);
   }
 
   @override
@@ -30,9 +49,9 @@ class _DiscoveryDialogState extends State<DiscoveryDialog> {
     super.dispose();
   }
 
-  Future<void> _run() async {
+  Future<void> _run({List<String>? roots}) async {
     try {
-      final r = await _discovery.run();
+      final r = await _discovery.run(roots: roots);
       if (!mounted) return;
       setState(() {
         _results = r;
@@ -62,7 +81,9 @@ class _DiscoveryDialogState extends State<DiscoveryDialog> {
         height: 460,
         child: _error != null
             ? Center(child: Text('Search failed: $_error'))
-            : results == null
+            : _needsPermission
+                ? _permission(context)
+                : results == null
                 ? _searching(context)
                 : _list(context, results),
       ),
@@ -73,6 +94,32 @@ class _DiscoveryDialogState extends State<DiscoveryDialog> {
             onPressed: _selected.isEmpty ? null : _add,
             child: Text('Add ${_selected.length} folder${_selected.length == 1 ? '' : 's'}'),
           ),
+      ],
+    );
+  }
+
+  Widget _permission(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(Icons.travel_explore, size: 56),
+        const SizedBox(height: 16),
+        Text('Where should MovieCat look?', style: t.titleMedium),
+        const SizedBox(height: 12),
+        Text(
+          'macOS only lets MovieCat read folders you choose. Pick your home folder '
+          'to search all of it, or select specific folders or external drives '
+          '(hold ⌘ to select several).',
+          textAlign: TextAlign.center,
+          style: t.bodyMedium,
+        ),
+        const SizedBox(height: 24),
+        FilledButton.icon(
+          onPressed: _chooseRoots,
+          icon: const Icon(Icons.folder_open),
+          label: const Text('Choose folders to search…'),
+        ),
       ],
     );
   }
@@ -105,9 +152,8 @@ class _DiscoveryDialogState extends State<DiscoveryDialog> {
             ),
             const SizedBox(height: 24),
             Text(
-              'Looking in your home folder and external drives. Home videos, screen '
-              'recordings and tutorials are left out.\nYour computer may ask for '
-              'permission to access some folders.',
+              'Home videos, screen recordings and tutorials are left out.\n'
+              'Your computer may ask for permission to access some folders.',
               textAlign: TextAlign.center,
               style: t.bodySmall,
             ),

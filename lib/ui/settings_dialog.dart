@@ -72,6 +72,37 @@ class _SettingsDialogState extends State<SettingsDialog> {
               ),
               const SizedBox(height: 4),
               Text('Titles you matched by hand are kept.', style: t.bodySmall),
+              const SizedBox(height: 20),
+              Text('About & data sources', style: t.titleSmall),
+              const SizedBox(height: 4),
+              Text(
+                'Titles are looked up using IMDb search, Cinemeta and TVmaze '
+                '(TV data licensed CC BY-SA). With a key, data also comes from TMDB. '
+                'This product uses the TMDB API but is not endorsed or certified by TMDB. '
+                'MovieCat is not affiliated with IMDb.',
+                style: t.bodySmall,
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Privacy: MovieCat has no account and collects no data. Only titles read from file names '
+                '(as search terms) are sent to the services above to identify titles.',
+                style: t.bodySmall,
+              ),
+              Wrap(spacing: 4, children: [
+                TextButton(
+                  onPressed: () => launchUrl(Uri.parse(
+                      'https://github.com/FredrikBorgstrom/moviecat/blob/main/PRIVACY.md')),
+                  child: const Text('Privacy policy'),
+                ),
+                TextButton(
+                  onPressed: () => launchUrl(Uri.parse('https://www.tvmaze.com')),
+                  child: const Text('TVmaze'),
+                ),
+                TextButton(
+                  onPressed: () => launchUrl(Uri.parse('https://www.themoviedb.org')),
+                  child: const Text('TMDB'),
+                ),
+              ]),
               const SizedBox(height: 12),
               InkWell(
                 onTap: () => launchUrl(Uri.directory(lib.store.dir.path)),

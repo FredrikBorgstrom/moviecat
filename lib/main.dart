@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'core/library.dart';
+import 'core/platform_access.dart';
 import 'core/store.dart';
 import 'ui/library_page.dart';
 import 'ui/setup_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await PlatformAccess.init();
   final library = Library(await Store.open());
+  await library.restoreAccess();
   runApp(MovieCatApp(library: library));
   if (library.store.setupDone && library.store.folders.isNotEmpty) {
     library.scan();

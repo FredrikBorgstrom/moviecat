@@ -169,7 +169,7 @@ class TmdbKeyFormState extends State<TmdbKeyForm> {
       children: [
         _step(1, 'Create a free TMDB account (or log in).',
             linkLabel: 'Sign up', url: 'https://www.themoviedb.org/signup'),
-        _step(2, 'Open API settings and click "Create" → "Developer". '
+        _step(2, 'Open API settings, click "Create" and choose "Developer". '
             'Any app name and URL is fine (e.g. "MovieCat", "localhost").',
             linkLabel: 'API settings', url: 'https://www.themoviedb.org/settings/api'),
         _step(3, 'Copy the "API Read Access Token" (or the shorter "API Key") and paste it below.'),

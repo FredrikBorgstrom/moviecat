@@ -17,6 +17,9 @@ class Store {
   /// Folders where only confidently recognised movies/TV are shown (set by
   /// auto-discovery for folders that also hold home videos, tutorials, etc.).
   Set<String> strictFolders = {};
+
+  /// macOS sandbox: security-scoped bookmarks (base64) for folders the user granted.
+  Map<String, String> bookmarks = {};
   String tmdbKey = '';
   bool setupDone = false;
 
@@ -53,6 +56,7 @@ class Store {
       final j = jsonDecode(await _settingsFile.readAsString()) as Map<String, dynamic>;
       folders = ((j['folders'] as List?) ?? []).cast<String>();
       strictFolders = ((j['strictFolders'] as List?) ?? []).cast<String>().toSet();
+      bookmarks = ((j['bookmarks'] as Map?) ?? {}).cast<String, String>();
       tmdbKey = j['tmdbKey'] as String? ?? '';
       setupDone = j['setupDone'] as bool? ?? false;
     } catch (_) {}
@@ -70,6 +74,7 @@ class Store {
   Future<void> saveSettings() => _write(_settingsFile, {
         'folders': folders,
         'strictFolders': strictFolders.toList(),
+        'bookmarks': bookmarks,
         'tmdbKey': tmdbKey,
         'setupDone': setupDone,
       });
