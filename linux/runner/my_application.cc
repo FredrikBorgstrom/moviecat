@@ -59,7 +59,7 @@ static void my_application_activate(GApplication* application) {
   if (exe != nullptr) {
     g_autofree gchar* dir = g_path_get_dirname(exe);
     g_autofree gchar* icon = g_build_filename(dir, "data", "flutter_assets", "assets",
-                                              "images", "logo.png", nullptr);
+                                              "images", "app_icon.png", nullptr);
     gtk_window_set_icon_from_file(window, icon, nullptr);
   }
 
