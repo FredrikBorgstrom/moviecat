@@ -109,24 +109,22 @@ class _LibraryPageState extends State<LibraryPage> {
         padding: const EdgeInsets.fromLTRB(20, 12, 12, 12),
         child: Row(
           children: [
+            // Same height as the ABCx3 banner, filling the header.
+            Image.asset('assets/images/logo.png', height: 92),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      Image.asset(
-                        'assets/images/logo.png',
-                        width: 40,
-                        height: 40,
-                      ),
-                      const SizedBox(width: 8),
                       Text(
                         'MovieCat',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const SizedBox(width: 20),
                       Flexible(
+                        flex: 6,
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 340),
                           child: TextField(
