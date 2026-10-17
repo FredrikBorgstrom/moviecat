@@ -109,6 +109,15 @@ async function uploadBuild(app) {
     const state = build?.attributes.processingState;
     if (state === 'VALID') { log('Build processed'); return build; }
     if (state === 'INVALID' || state === 'FAILED') throw new Error(`Build processing ${state}`);
+    if (!build) {
+      // Before the build shows up, a rejected upload is only visible here.
+      const uploads = await get(`/v1/apps/${app.id}/buildUploads?limit=20`).catch(() => ({ data: [] }));
+      const upload = uploads.data.find((u) => u.attributes.cfBundleVersion === buildNumber);
+      if (upload?.attributes.state?.state === 'FAILED') {
+        const errors = upload.attributes.state.errors.map((e) => `${e.code}: ${e.description}`).join('\n  ');
+        throw new Error(`Apple rejected build ${buildNumber}:\n  ${errors}`);
+      }
+    }
     log(`Waiting for build processing (${state ?? 'not visible yet'})…`);
     await sleep(30000);
   }
