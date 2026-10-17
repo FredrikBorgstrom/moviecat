@@ -1,5 +1,6 @@
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path/path.dart' as p;
 
 import '../core/filename_parser.dart';
@@ -110,7 +111,7 @@ class _LibraryPageState extends State<LibraryPage> {
         child: Row(
           children: [
             // Same height as the ABCx3 banner, filling the header.
-            Image.asset('assets/images/logo.png', height: 92),
+            SvgPicture.asset('assets/images/moviecat-icon.svg', height: 92),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
@@ -118,9 +119,10 @@ class _LibraryPageState extends State<LibraryPage> {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        'MovieCat',
-                        style: Theme.of(context).textTheme.titleLarge,
+                      SvgPicture.asset(
+                        'assets/images/moviecat-wordmark-dark.svg',
+                        height: 34,
+                        semanticsLabel: 'MovieCat',
                       ),
                       const SizedBox(width: 20),
                       Flexible(

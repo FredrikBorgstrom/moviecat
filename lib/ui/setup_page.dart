@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -47,7 +48,7 @@ class _SetupPageState extends State<SetupPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Image.asset('assets/images/logo.png', height: 160),
+                SvgPicture.asset('assets/images/moviecat-icon.svg', height: 160),
                 const SizedBox(height: 16),
                 Text('Welcome to MovieCat', style: t.headlineMedium, textAlign: TextAlign.center),
                 const SizedBox(height: 8),
