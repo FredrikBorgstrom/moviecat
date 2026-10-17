@@ -19,15 +19,24 @@ xcodebuild archive -workspace macos/Runner.xcworkspace -scheme Runner -configura
 xcodebuild -exportArchive -archivePath build/macos/MovieCat.xcarchive -exportPath build/macos/export \
   -exportOptionsPlist macos/ExportOptions.plist | grep -E "error|EXPORT (SUCCEEDED|FAILED)"
 
-# Xcode's export leaves Swift-package resource bundles (file_selector, url_launcher)
-# signed with the development certificate, which App Store processing rejects
-# (error 90284). Re-sign them for distribution, re-seal the app, rebuild the pkg.
+# Re-sign for the App Store: Xcode's export leaves Swift-package resource bundles
+# (file_selector, url_launcher) signed with the development certificate, which
+# App Store processing rejects (error 90284), and the app must be sandboxed.
+# Re-sign the bundles, re-seal the app with AppStore.entitlements, rebuild the pkg.
 DIST="Apple Distribution: AB Cx3 (F3C7B92SZG)"
 INSTALLER="3rd Party Mac Developer Installer: AB Cx3 (F3C7B92SZG)"
 WORK=build/macos/resign
 rm -rf "$WORK" && pkgutil --expand-full build/macos/export/MovieCat.pkg "$WORK"
 APP="$WORK/com.abcx3.moviecat.pkg/Payload/MovieCat.app"
 codesign -d --entitlements "$WORK/entitlements.plist" --xml "$APP"
+# The normal build isn't sandboxed; the App Store one must be. Merge the sandbox
+# entitlements over the exported ones (which carry the team/app identifiers).
+python3 - "$WORK/entitlements.plist" macos/Runner/AppStore.entitlements <<'PY'
+import plistlib, sys
+ent = plistlib.load(open(sys.argv[1], 'rb'))
+ent.update(plistlib.load(open(sys.argv[2], 'rb')))
+plistlib.dump(ent, open(sys.argv[1], 'wb'))
+PY
 for item in "$APP"/Contents/Resources/*.bundle; do
   codesign --force --sign "$DIST" --timestamp=none "$item"
 done

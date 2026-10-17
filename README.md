@@ -50,7 +50,12 @@ Prebuilt apps are attached to each [release](https://github.com/FredrikBorgstrom
 
 ## Mac App Store
 
-The macOS app is sandboxed so it can ship on the Mac App Store (bundle ID `com.abcx3.moviecat`). Inside the sandbox MovieCat can only read folders you pick, and it remembers them between launches. "Find movies automatically" therefore asks which folders or drives to search first. See [appstore/README.md](appstore/README.md) for the release steps.
+There are two macOS builds of the same code:
+
+- **Direct download** (GitHub releases, `flutter build macos`): not sandboxed. "Find movies automatically" searches all internal and external drives; macOS only asks for permission per location.
+- **Mac App Store** (`appstore/build.sh`, bundle ID `com.abcx3.moviecat`): sandboxed, as Apple requires. A sandboxed app can only read folders you pick, so the app detects the sandbox and hides "Find movies automatically"; you add folders with "Add folder", and MovieCat remembers access to them between launches.
+
+See [appstore/README.md](appstore/README.md) for the release steps.
 
 ## Building from source
 

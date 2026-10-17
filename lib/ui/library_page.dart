@@ -5,6 +5,7 @@ import 'package:path/path.dart' as p;
 
 import '../core/filename_parser.dart';
 import '../core/library.dart';
+import '../core/platform_access.dart';
 import 'brand.dart';
 import 'detail_dialog.dart';
 import 'discovery_dialog.dart';
@@ -35,6 +36,10 @@ class _LibraryPageState extends State<LibraryPage> {
     final path = await getDirectoryPath(confirmButtonText: 'Add folder');
     if (path != null) await lib.addFolder(path);
   }
+
+  /// Auto-discovery needs to read whole drives, which the macOS App Sandbox
+  /// (Mac App Store build) doesn't allow, so it's only offered outside it.
+  bool get _canDiscover => !PlatformAccess.sandboxed;
 
   void _discover() => showDialog(
     context: context,
@@ -240,24 +245,28 @@ class _LibraryPageState extends State<LibraryPage> {
         ),
         const Spacer(),
         if (compact) ...[
-          IconButton.outlined(
-            tooltip: 'Find movies automatically',
-            onPressed: _discover,
-            icon: const Icon(Icons.travel_explore),
-          ),
-          const SizedBox(width: 6),
+          if (_canDiscover) ...[
+            IconButton.outlined(
+              tooltip: 'Find movies automatically',
+              onPressed: _discover,
+              icon: const Icon(Icons.travel_explore),
+            ),
+            const SizedBox(width: 6),
+          ],
           IconButton.filled(
             tooltip: 'Add folder',
             onPressed: _addFolder,
             icon: const Icon(Icons.create_new_folder_outlined),
           ),
         ] else ...[
-          OutlinedButton.icon(
-            onPressed: _discover,
-            icon: const Icon(Icons.travel_explore),
-            label: const Text('Find automatically'),
-          ),
-          const SizedBox(width: 8),
+          if (_canDiscover) ...[
+            OutlinedButton.icon(
+              onPressed: _discover,
+              icon: const Icon(Icons.travel_explore),
+              label: const Text('Find automatically'),
+            ),
+            const SizedBox(width: 8),
+          ],
           FilledButton.icon(
             onPressed: _addFolder,
             icon: const Icon(Icons.create_new_folder_outlined),
@@ -348,24 +357,33 @@ class _LibraryPageState extends State<LibraryPage> {
             const Icon(Icons.video_library_outlined, size: 72),
             const SizedBox(height: 16),
             Text(
-              'Let MovieCat find your movies, or add a folder yourself',
+              _canDiscover
+                  ? 'Let MovieCat find your movies, or add a folder yourself'
+                  : 'Add a folder with movies or TV shows to get started',
               style: t.titleMedium,
             ),
             const SizedBox(height: 16),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                FilledButton.icon(
-                  onPressed: _discover,
-                  icon: const Icon(Icons.travel_explore),
-                  label: const Text('Find movies automatically'),
-                ),
-                const SizedBox(width: 12),
-                OutlinedButton.icon(
-                  onPressed: _addFolder,
-                  icon: const Icon(Icons.create_new_folder_outlined),
-                  label: const Text('Add folder'),
-                ),
+                if (_canDiscover) ...[
+                  FilledButton.icon(
+                    onPressed: _discover,
+                    icon: const Icon(Icons.travel_explore),
+                    label: const Text('Find movies automatically'),
+                  ),
+                  const SizedBox(width: 12),
+                  OutlinedButton.icon(
+                    onPressed: _addFolder,
+                    icon: const Icon(Icons.create_new_folder_outlined),
+                    label: const Text('Add folder'),
+                  ),
+                ] else
+                  FilledButton.icon(
+                    onPressed: _addFolder,
+                    icon: const Icon(Icons.create_new_folder_outlined),
+                    label: const Text('Add folder'),
+                  ),
               ],
             ),
           ],
