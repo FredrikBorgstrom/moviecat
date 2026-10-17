@@ -42,11 +42,11 @@ The key is stored only on your computer, in the app's data folder (shown in Sett
 
 ## Download
 
-Prebuilt apps are attached to each [release](https://github.com/FredrikBorgstrom/moviecat/releases):
+Download the latest version (older versions are on the [releases page](https://github.com/FredrikBorgstrom/moviecat/releases)):
 
-- **macOS**: `MovieCat-macos.zip`. The app is not signed, so the first time right-click it → **Open**, or run `xattr -cr MovieCat.app`.
-- **Windows**: `MovieCat-windows-x64.zip`, unzip and run `moviecat.exe`.
-- **Linux**: `MovieCat-linux-x64.tar.gz`, extract and run `./moviecat` (needs GTK 3).
+- **macOS**: [MovieCat-macos.zip](https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-macos.zip). The app is not signed, so the first time right-click it → **Open**, or run `xattr -cr MovieCat.app`.
+- **Windows**: [MovieCat-windows-x64.zip](https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-windows-x64.zip), unzip and run `moviecat.exe`.
+- **Linux**: [MovieCat-linux-x64.tar.gz](https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-linux-x64.tar.gz), extract and run `./moviecat` (needs GTK 3).
 
 ## Mac App Store
 
