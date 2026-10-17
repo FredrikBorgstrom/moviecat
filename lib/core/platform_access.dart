@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Access to macOS sandbox features (security-scoped bookmarks etc.).
@@ -12,6 +13,10 @@ class PlatformAccess {
 
   /// True when running inside the macOS App Sandbox (the App Store build).
   static bool get sandboxed => _sandboxed ?? false;
+
+  /// Lets tests and screenshot tooling render the App Store (sandboxed) UI.
+  @visibleForTesting
+  static set sandboxedForTesting(bool value) => _sandboxed = value;
 
   /// The user's real home folder (inside the sandbox, \$HOME is the app container).
   static String get home =>

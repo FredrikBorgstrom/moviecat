@@ -282,8 +282,9 @@ async function screenshots(localizationId) {
   }
   const files = meta.screenshots.map((f) => path.join(here, f));
   const existing = (await get(`/v1/appScreenshotSets/${set.id}/appScreenshots?limit=50`)).data;
-  const names = existing.map((s) => s.attributes.fileName).join('|');
-  if (names === files.map((f) => path.basename(f)).join('|') &&
+  const md5 = (f) => crypto.createHash('md5').update(fs.readFileSync(f)).digest('hex');
+  const current = existing.map((s) => `${s.attributes.fileName}:${s.attributes.sourceFileChecksum}`).join('|');
+  if (current === files.map((f) => `${path.basename(f)}:${md5(f)}`).join('|') &&
       existing.every((s) => s.attributes.assetDeliveryState?.state === 'COMPLETE')) {
     log('Screenshots already uploaded');
     return;
