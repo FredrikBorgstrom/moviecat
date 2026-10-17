@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'brand.dart';
+
 /// Poster image with a tidy placeholder while loading or when missing.
 class Poster extends StatelessWidget {
   final String? url;
@@ -55,7 +57,7 @@ class RatingBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
-        const Icon(Icons.star_rounded, size: 15, color: Color(0xFFF5C518)),
+        const Icon(Icons.star_rounded, size: 15, color: brandOrangeLight),
         const SizedBox(width: 3),
         Text(
           label == null ? rating.toStringAsFixed(1) : '$label ${rating.toStringAsFixed(1)}',
@@ -100,7 +102,7 @@ class _StarRatingState extends State<StarRating> {
                 child: Icon(
                   i <= shown ? Icons.star_rounded : Icons.star_outline_rounded,
                   size: widget.size,
-                  color: i <= shown ? const Color(0xFF5799EF) : c.outline,
+                  color: i <= shown ? brandOrange : c.outline,
                 ),
               ),
             ),

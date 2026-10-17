@@ -1,0 +1,165 @@
+{
+  "tool": "Built-in image generation",
+  "concepts": [
+    {
+      "name": "Play Cat",
+      "key": "moviecat-play-cat",
+      "prompt": "Use case: logo-brand.\nAsset type: original logo concept for MovieCat, a macOS, Windows and Linux app that catalogs a user's movie files and displays film thumbnails and information.\nPrimary request: a sophisticated, minimal logo that fuses a cat silhouette with the universal movie play symbol. Create one compact, unmistakably feline silhouette with pointed ears and a gracefully curled tail; integrate a bold right-facing play triangle as deliberate negative space inside the body. The cat and play symbol should feel designed as one clever mark.\nStyle/medium: exceptionally crisp flat vector-style logo, strong simple silhouette, optical balance, restrained one or two colors, contemporary software brand.\nComposition: one large centered symbol above one carefully typeset wordmark, balanced spacing and generous transparent margins. The symbol must also work independently as a small desktop app icon.\nText verbatim: \"MovieCat\", capital M and C, all remaining letters lowercase. Use a refined rounded geometric sans serif with excellent kerning.\nConstraints: genuinely transparent background; no backdrop, card, checkerboard pattern, drop shadow, gradients, textures, 3D, mockups, slogans, extra text or watermark. No existing movie brand logos. Deliver one finished logo only.",
+      "source": "/Users/fredrik/.codex/generated_images/01a14656-33fc-7261-af40-0076828b17b2/exec-4dbe8641-c403-4960-af05-7ed0a0795bd8.png",
+      "filename": "01-play-cat-v1.png"
+    },
+    {
+      "name": "Reel Cat",
+      "key": "moviecat-reel-cat",
+      "prompt": "Use case: logo-brand.\nAsset type: original logo concept for MovieCat, a macOS, Windows and Linux app for cataloging personal movie collections.\nPrimary request: a charming, memorable cinema logo in which a classic circular film reel becomes a cat's head. Two beautifully proportioned pointed ears rise from the reel; a few large reel apertures form a clever friendly feline face using negative space. The result should read instantly as both a cat and a film reel. Keep the construction bold, compact and simple, with a slight vintage cinema character expressed through geometry rather than decoration.\nStyle/medium: premium flat vector-style identity, confident rounded geometry, restrained one or two colors, friendly yet polished.\nComposition: one large centered symbol above a single wordmark, generous transparent margins, simple enough for a small desktop app icon. The circular reel-cat emblem is the hero.\nText verbatim: \"MovieCat\", capital M and C, all remaining letters lowercase. A slightly soft, substantial, custom-feeling sans serif with clean kerning, visually harmonious with the emblem.\nConstraints: genuinely transparent background; no backdrop, card, checkerboard pattern, drop shadow, gradients, textures, 3D, mockups, slogans, extra text or watermark. No existing movie brand logos. Deliver one finished logo only.",
+      "source": "/Users/fredrik/.codex/generated_images/01a14656-33fc-7261-af40-0076828b17b2/exec-cc621fdd-3591-487b-9277-d67de5ff83b5.png",
+      "filename": "02-reel-cat-v1.png"
+    },
+    {
+      "name": "Clapper Cat",
+      "key": "moviecat-clapper-cat",
+      "prompt": "Use case: logo-brand.\nAsset type: original logo concept for MovieCat, a desktop app for macOS, Windows and Linux that catalogs movie collections.\nPrimary request: a clever geometric fusion of a cat and a movie clapperboard. The compact lower clapperboard silhouette also reads as a cat head with two pointed ears, simple feline eye cutouts and restrained whisker cues. Its hinged diagonal striped clap stick provides an immediate filmmaking association. Integrate the shapes into one coherent iconic emblem rather than placing a separate cat next to a clapperboard. Express a smart, curious personality with minimal geometry.\nStyle/medium: polished flat vector-style logo, bold graphic shapes, precise negative space, restrained one or two colors, contemporary editorial cinema character.\nComposition: one large centered emblem above one beautifully spaced wordmark, generous transparent margins. Strong silhouette that remains readable at small desktop app icon sizes.\nText verbatim: \"MovieCat\", capital M and C, all remaining letters lowercase. Confident clean geometric sans serif with careful kerning.\nConstraints: genuinely transparent background; no backdrop, card, checkerboard pattern, drop shadow, gradients, textures, 3D, mockups, slogans, extra text or watermark. No existing movie brand logos. Deliver one finished logo only.",
+      "source": "/Users/fredrik/.codex/generated_images/01a14656-33fc-7261-af40-0076828b17b2/exec-dd2c531d-fc48-484e-ad75-5dccaadf93be.png",
+      "filename": "03-clapper-cat-v1.png"
+    },
+    {
+      "name": "Fat Cat TV",
+      "filename": "04-fat-cat-tv-v1.png",
+      "source": "/Users/fredrik/.codex/generated_images/01a14656-33fc-7261-af40-0076828b17b2/exec-6923017e-f92e-467a-bbf9-ed139ff13f15.png",
+      "prompt": "Use case: logo-brand.\nAsset type: original MovieCat desktop application logo.\nPrimary request: a cool fat cat resting on top of an old fat television. Make this a wonderfully memorable, stylish logo: a very plump, relaxed cat sprawled luxuriously across the top of a chunky vintage box television. The cat has a broad round belly, a self-assured sleepy face with half-lidded eyes, little paws draped over the front edge, and a thick lazy tail curling down one side. The cat looks calm, cool and contented. The old television is visibly bulky with a curved glass screen, thick rounded casing, a couple of simple tuning knobs and small feet. A single bold right-facing play triangle in the screen ties the emblem to movies.\nStyle/medium: polished illustrative logo made from bold flat vector-style shapes, thick clean contours, a restrained two or three color treatment and crisp negative space. Strong character, stylish rather than childish, readable silhouette, just enough detail to convey the cat and old television. No photographic detail.\nComposition: one large compact emblem centered above one clean beautifully kerned wordmark. Cat and television form one cohesive, balanced silhouette. Generous transparent margin. The icon should also look good independently of the wordmark.\nText verbatim: \"MovieCat\", capital M and C, all other letters lowercase, in a substantial rounded contemporary sans serif. No other text.\nBackground: genuinely transparent with clean alpha edges.\nAvoid: background scene, backdrop panel, checkerboard texture, mockup, photorealism, 3D, gradients, shadows, tiny decorative lines, slogan, extra text, existing movie brand logos, watermark. Deliver one finished logo only."
+    },
+    {
+      "name": "Fat Cat App Icon",
+      "filename": "05-fat-cat-app-icon-v1.png",
+      "source": "/Users/fredrik/.codex/generated_images/01a14656-33fc-7261-af40-0076828b17b2/exec-d7634bd6-8406-4e8b-af8d-c91046e9ba50.png",
+      "prompt": "Use case: logo-brand.\nAsset type: simplified MovieCat desktop app icon.\nInput image: the attached fat tabby cat resting on an orange vintage television is the EDIT TARGET and identity reference.\nPrimary request: simplify this exact illustration into a clean, bold app icon. Retain its distinctive cool, very fat cat lounging across the top of a bulky old television, the lazy paws hanging over the front, tail curling down the viewer's left side, and large play triangle in the screen. Retain the cat's smug, relaxed half-lidded expression and the original warm orange, cream and dark charcoal character.\nMake a substantial reduction in visual detail: solid flat fills only, no shading or gradients; reduce the cat's coat to two or three large graphic patches; remove all small fur markings, fur tufts, whisker lines, toe lines, screen reflections, vent grille lines and decorative strokes. Simplify each front paw to a rounded lobe. Use two simple bold tuning knobs. A tiny simple nose and minimal mouth are enough; the half-lidded eyes must remain readable and expressive. Keep the silhouette exceptionally clear.\nTelevision: thick rounded orange casing, a single clear cream screen rim, solid charcoal screen, one large cream right-facing play triangle. Broad simple shapes, consistent heavy dark contours. Keep the overall charm and proportions of the reference rather than redesigning the character.\nComposition: exactly square canvas, icon only, remove the entire \"MovieCat\" wordmark. Enlarge and recompose the cat and television together to fill about 84 percent of the square while leaving even safe transparent padding on all sides. The cat and television should form one compact cohesive near-square mark that remains recognizable at 32 and 64 pixels.\nStyle: professionally drawn flat vector-style app icon with smooth, confident edges and very few shapes. Approximately four flat colors. Minimal, iconic, friendly and cool.\nConstraints: genuinely transparent background with clean alpha edges, no background tile or backdrop, no checkerboard pattern, no text or letters, no mockup, no texture, no shadows, no photorealism, no 3D. Preserve the fat cat resting ON TOP of the retro television. Deliver one icon only.",
+      "tool": "Built-in image generation",
+      "reference": "04-fat-cat-tv-v1.png"
+    },
+    {
+      "name": "Fat Cat App Icon \u2014 Simplified Cat Colors",
+      "filename": "05-fat-cat-app-icon-v2.png",
+      "source": "/Users/fredrik/.codex/generated_images/01a14656-33fc-7261-af40-0076828b17b2/exec-52505201-8a07-4ffe-bd6e-f3a0816bb65f.png",
+      "prompt": "Use case: logo-brand.\nAsset type: MovieCat desktop app icon, targeted color simplification.\nInput image: the supplied square app icon is the EDIT TARGET.\nChange only the CAT'S COLOR TREATMENT. Simplify its coat to EXACTLY TWO completely flat solid colors: warm ivory cream and very dark charcoal. Replace every brown midtone patch, brown stripe, brown facial area, shaded region and highlight on the cat with one of those two colors. Merge all the back patches into one smooth charcoal cap across the cat's upper back and top of head. Make the tail one solid charcoal shape, with no stripes, bands, cream tip or extra markings. Keep the belly, muzzle and two hanging paws solid ivory cream. Keep the cat's tiny golden eyes as the only small accent; change its nose and inner ears to the same charcoal/cream palette rather than pink. No gradients, color variation, shading or texture anywhere in the cat. It should read as a very simple two-tone tuxedo cat, with only a few broad color regions.\nPreserve invariants: exactly the same very fat reclining cat, relaxed half-lidded expression, pose, face placement, rounded paws, curled tail silhouette, outer contours, proportions, square composition and transparent margins. Preserve the orange retro television, two tuning knobs, cream screen rim and large play triangle exactly as shown; do not redesign or recolor the television. No added or removed objects. No text. Keep genuinely transparent background and clean alpha edges.\nThe result must look visibly simpler in color than the reference, while retaining its personality and every major shape. Deliver one finished square icon only.",
+      "tool": "Built-in image generation",
+      "reference": "05-fat-cat-app-icon-v1.png"
+    },
+    {
+      "name": "Fat Cat App Icon \u2014 Minimal Blank Screen",
+      "filename": "05-fat-cat-app-icon-v3.png",
+      "source": "/Users/fredrik/.codex/generated_images/01a14656-33fc-7261-af40-0076828b17b2/exec-24e24e5e-8385-4f5e-aa5f-83b3bdc2b5e0.png",
+      "prompt": "Use case: logo-brand.\nAsset type: MovieCat desktop app icon that must work at 32 and 48 pixels.\nInput image: attached app icon is the EDIT TARGET and concept reference.\nRequest: substantially simplify the ENTIRE illustration into a few bold graphic shapes, and REMOVE the play triangle from the television screen completely. This needs to read as a fat relaxed cat on an old chunky television at tiny sizes. Make a decisive reduction in complexity rather than merely deleting the triangle.\n\nUse EXACTLY THREE flat uniform inks across the whole icon: warm ivory cream, dark charcoal, and warm orange. No yellow, pink, brown, highlights, shading, gradients, gloss, textures or tonal variations. Crisp simple screen-printed geometry.\n\nCAT: one plump solid CREAM silhouette with a strong charcoal edge, with NO coat patches, stripes or internal fur details. Large round head on the viewer's right, two clear pointed ears, big sleepy eyes indicated by just TWO short thick charcoal strokes. A tiny charcoal nose is enough; no mouth, muzzle lines, eyebrows, pupils or inner-ear shapes. Fat body reclining across the top, just two simple rounded bumps for paws resting over the edge. Remove the chest lines and all toe lines. One short thick simple curved tail down the viewer's left, integrated into the outer silhouette, without extra loops or markings. Preserve the original cool, lazy, contented personality. Enlarge the head and simplify the silhouette as needed for tiny-size legibility.\n\nTELEVISION: one chunky rounded ORANGE box with a bold charcoal outer edge and ONE large blank CHARCOAL rounded-rectangle screen. Remove the cream screen rim and all multiple nested borders. On the right, ONE simple solid CREAM circular tuning knob, without rings or diagonal line. No second knob, no grille, no feet, no antenna, no highlights. Absolutely NOTHING inside the screen: no play button, no triangle, no symbol, no cat face, no reflections, no text.\n\nComposition: compact near-square silhouette filling about 84 percent of a square canvas with safe even padding. Fat cat above, old television below, front view. Clear graphic masses; curves and line weights thick enough to survive reduction to 32 pixels. Professional minimal icon design with a very small number of shapes. Keep the recognisable cat-on-orange-retro-television concept.\nBackground: genuinely transparent with clean alpha edges.\nAvoid: text, wordmark, letters, mockup, badge background, checkerboard pattern, 3D, realism, illustrative flourishes, fine detail, thin lines. Deliver just one large square icon, not a presentation sheet or several size examples.",
+      "tool": "Built-in image generation",
+      "reference": "05-fat-cat-app-icon-v2.png"
+    },
+    {
+      "name": "Fat Cat App Icon \u2014 Facing Viewer and Smiling",
+      "filename": "05-fat-cat-app-icon-v4.png",
+      "source": "/Users/fredrik/.codex/generated_images/01a14656-33fc-7261-af40-0076828b17b2/exec-649f8ae5-fb79-479b-9365-c25c78f92c08.png",
+      "prompt": "Use case: logo-brand.\nAsset type: MovieCat minimal desktop app icon, expression edit.\nInput image: the attached version 3 icon is the EDIT TARGET.\nChange only the cat's face and the head orientation needed for the requested expression: the cat should be LOOKING DIRECTLY AT US AND SMILING. Turn its face straight toward the viewer, with both eyes clearly visible and a centered nose. Replace the sleepy closed eyelid strokes with two simple OPEN charcoal oval eyes that look straight out of the image. Add one clear friendly upward-curving charcoal smile below the small triangular nose. The expression should be cheerful, warm, relaxed and welcoming. Use a tiny number of bold shapes with generous spacing so the eyes and smile remain legible on a small app icon. No tiny pupils, whiskers, eyelashes, teeth, tongue, extra cheek marks or fine lines.\nPreserve the same very fat cream cat reclining on the orange retro television, body proportions, short hanging paws, curved tail, thick smooth charcoal outlines, square layout, placement, and near-square overall silhouette. Preserve the SIMPLE three-color treatment of cream, charcoal and orange. Keep the television exactly as shown with its SINGLE cream circular knob and COMPLETELY BLANK dark screen: no play symbol or other screen contents.\nDo not restore coat patches, stripes, extra colors or illustrative detail. Keep the artwork minimal and suitable for a 32-pixel app icon. Keep the genuinely transparent background and safe margins. No text, no mockup, no new objects. Deliver one finished square icon.",
+      "tool": "Built-in image generation",
+      "reference": "05-fat-cat-app-icon-v3.png"
+    },
+    {
+      "name": "Fat Cat App Icon \u2014 Natural Cat Mouth",
+      "filename": "05-fat-cat-app-icon-v5.png",
+      "source": "/Users/fredrik/.codex/generated_images/01a14656-33fc-7261-af40-0076828b17b2/exec-320f8ddc-8110-427f-b3de-89f0c115c8d2.png",
+      "prompt": "Use case: precise-object-edit.\nAsset type: MovieCat app icon, mouth correction.\nImage 1 is the EDIT TARGET: the latest minimal cream cat on an orange television.\nImage 2 is a REFERENCE ONLY for the original cat's natural mouth shape.\n\nEdit Image 1 and change ONLY the mouth. Replace its broad single U-shaped human smile with the small natural feline mouth from Image 2: a short central stem directly beneath the triangular nose, dividing into two compact symmetric rounded curves, one to the left and one to the right, each curling gently upward at the outer end. This is the familiar double-curved cat muzzle/mouth, conveying a subtle contented cat expression. Use one clean charcoal stroke with rounded ends, bold enough for a small app icon. Keep the mouth modest in size and centered beneath the nose. No broad human grin, open mouth, teeth, tongue or extra muzzle decoration.\n\nPreserve EVERYTHING ELSE from Image 1: both open oval eyes looking straight at us, the front-facing head, nose, ear shapes, fat reclining cream body, paws, tail, thick outlines, orange television, single cream tuning knob, entirely blank dark screen, three main colors, square canvas, layout and safe margins. Do not restore any of Image 2's stripes, colors, whiskers, detailed illustration, play triangle, second knob, feet or text.\nKeep the genuinely transparent background and original clean edges. Return just the corrected full square app icon, with no text or mockup.",
+      "tool": "Built-in image generation",
+      "reference": "05-fat-cat-app-icon-v4.png",
+      "mouth_reference": "04-fat-cat-tv-v1.png"
+    },
+    {
+      "name": "Fat Cat App Icon \u2014 Yellow Cat and Blank Screen",
+      "source": "/Users/fredrik/.codex/generated_images/01a148ee-53df-79e0-bc22-dadf1d9d4607/exec-419b258e-3c68-4fd0-b016-70f6c5c5430e.png",
+      "prompt": "Use case: logo-brand.\nAsset type: MovieCat desktop app icon, targeted edit.\nInput image: the supplied square icon of a fat cat reclining on an orange vintage television is the EDIT TARGET.\nMake exactly these two changes:\n1. Recolor the cat to a warm golden YELLOW base with BLACK STRIPES ON ITS BACK. The head, cheeks, belly, rounded paws and curled tail should all be yellow, replacing the previous cream and large dark coat regions. Add only three or four broad, simple, tapered black tabby stripes descending from the upper curve of the back. Keep the coat very simple and flat: yellow plus black markings and the existing dark outline. Do not add fine fur detail, shading, extra patches, face stripes or tail bands. Preserve the exact fat lounging pose, smug half-lidded expression, eye shapes, black nose and smiling mouth, paw contours and tail silhouette.\n2. REMOVE the cream play triangle from the television screen completely. Fill its former area with the same dark charcoal as the rest of the screen, making a clean blank dark screen, with no icon, text, picture, glow or reflections.\nPreserve everything else: the orange vintage television, cream screen surround, two tuning knobs, feet, heavy outline style, proportions, composition, square canvas and transparent margins. Do not redesign the television or change the cat's pose. Keep a genuinely transparent background and clean alpha edges.\nUse crisp, bold flat vector-style shapes suited to a small app icon. No wordmark, no text, no added objects, no background tile, no checkerboard pattern, no watermark. Deliver one finished square icon only.",
+      "tool": "Built-in image generation",
+      "reference": "05-fat-cat-app-icon-v2.png",
+      "filename": "05-fat-cat-app-icon-v6.png"
+    },
+    {
+      "name": "Fat Cat App Icon \u2014 White Cat with Black Stripes",
+      "source": "/Users/fredrik/.codex/generated_images/01a148ee-53df-79e0-bc22-dadf1d9d4607/exec-0e381c5f-43f7-48de-8adc-1f47622ee4e8.png",
+      "prompt": "Use case: logo-brand.\nAsset type: MovieCat desktop app icon, precise fur recoloring.\nInput image: the supplied yellow cat on the orange vintage television is the EDIT TARGET.\nMake ONE change only: replace the cat's YELLOW FUR with clean WHITE fur. Recolor all yellow fur regions, including the back, head, cheeks, belly, paws, inner ears and curled tail, to solid neutral white. Use white, not ivory, cream, beige or gray. Keep the existing black stripes on the back exactly as shown.\nPreserve all other details precisely: the cat's fat lounging pose, smug half-lidded facial expression, yellow eye irises, black pupils, nose, mouth, thick black outline, stripe positions and shapes, tail silhouette, paws, proportions and layout. The eyes are not fur and must retain their current color.\nPreserve the orange retro television, white/cream screen rim, two tuning knobs, feet and completely blank dark charcoal screen exactly as they are. Do not add a play symbol. Preserve the square canvas and existing transparent padding. Keep genuinely transparent background with clean alpha edges.\nMaintain the simple flat app-icon illustration. No text, new objects, new markings, background tile, checkerboard pattern, watermark or redesign. Deliver one finished square icon only.",
+      "tool": "Built-in image generation",
+      "reference": "05-fat-cat-app-icon-v6.png",
+      "filename": "05-fat-cat-app-icon-v7.png"
+    },
+    {
+      "key": "moviecat-wordmark-clean-result",
+      "name": "MovieCat Wordmark",
+      "prefix": "06-moviecat-wordmark",
+      "source": "/Users/fredrik/.codex/generated_images/01a148ee-53df-79e0-bc22-dadf1d9d4607/exec-eaf090f2-fcb1-44d6-9dc9-a89570c60b71.png",
+      "filename": "06-moviecat-wordmark-v1.png",
+      "saved": "/Users/fredrik/Documents/moviecat/outputs/MovieCat Logo Concepts/06-moviecat-wordmark-v1.png",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "tool": "Built-in image generation",
+      "prompt": "Use case: logo-brand.\nAsset type: precise cleanup of a MovieCat wordmark.\nInput image is the EDIT TARGET.\nKeep the exact wordmark \"MovieCat\", lettering design, letter shapes, weight, alignment, kerning and composition. Make a single production cleanup pass: replace the colors with two perfectly uniform solid ink fills. \"Movie\" must be solid near-black charcoal and \"Cat\" solid vivid warm orange matching a vintage orange television. Remove ALL red specks, red outlines, colored fringe, grain, translucent patches, stray pixels and ragged holes. The orange letters must be smoothly opaque throughout, with crisp clean edges and transparent counters. The charcoal letters must also be smoothly opaque throughout. No gradients, texture or shading anywhere.\nPreserve the friendly heavy rounded custom sans serif character, one straight baseline, exact text and proportions. Generous transparent margins on a wide horizontal canvas. Genuinely transparent background, no panel, no checkerboard, no mockup, no icon, no extra text or symbols. Deliver only the cleaned wordmark.",
+      "initial_prompt": "Use case: logo-brand.\nAsset type: MovieCat logotype / standalone wordmark for a desktop movie catalog app.\nInput image: the supplied white cat reclining on an orange vintage television is a STYLE AND COLOR REFERENCE ONLY. Create matching typography; do not reproduce the cat or television in this output.\nPrimary request: design a beautifully drawn, memorable wordmark reading exactly \"MovieCat\". Capital M and C, all other letters lowercase, no space: M-o-v-i-e-C-a-t.\nDesign direction: confident, chunky, rounded custom sans serif lettering with a subtle 1970s television character, soft corners and broad friendly curves that echo the fat cat's paws and the old television casing. Professional, balanced and highly legible. Give the letters enough individuality to feel like a designed logotype, without gimmicks or extra pictograms. Slightly compact proportions, substantial consistent stroke weight, carefully controlled counters and excellent optical kerning. Upright letters on one straight shared baseline. The capital M and C should feel harmonious.\nColor: \"Movie\" in the near-black charcoal of the reference's outline; \"Cat\" in the vivid warm orange of the reference's television. Both parts must use the same lettering weight and style. Exactly two flat solid colors with no outlines, gradients, shadows or textures.\nComposition: wordmark ONLY, one centered horizontal line on a wide landscape canvas, generous clear transparent margins around every edge. A clean finished reusable typography asset. Large, crisp, flat vector-style edges.\nConstraints: genuinely transparent background and clean alpha; no cat, television, icon, illustration, badge, background panel, border, checkerboard pattern, slogan, annotation, extra letters, watermark, 3D or mockup. Exact text \"MovieCat\" appears once only."
+    },
+    {
+      "key": "moviecat-combined-logo-clean-result",
+      "name": "MovieCat Combined Logo",
+      "prefix": "07-moviecat-logo",
+      "source": "/Users/fredrik/.codex/generated_images/01a148ee-53df-79e0-bc22-dadf1d9d4607/exec-b81c33e0-c570-49f1-9f43-118380a5ada5.png",
+      "filename": "07-moviecat-logo-v1.png",
+      "saved": "/Users/fredrik/Documents/moviecat/outputs/MovieCat Logo Concepts/07-moviecat-logo-v1.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "tool": "Built-in image generation",
+      "prompt": "Use case: background-extraction.\nAsset type: clean transparent MovieCat logo.\nInput image is the EDIT TARGET.\nRemove the entire soft black haze, orange glow, blurry aura, light bloom and shadow surrounding the cat, television and letters. Every area outside the actual hard-edged illustration and the actual hard-edged letters must become fully transparent. All gaps between objects and inside letters must be transparent too. There must be no remaining blur, halo or haze around any edge.\nKeep the cat-and-television graphic and the wordmark in exactly their existing positions and proportions. Preserve the white cat, black back stripes, yellow eyes, orange television and blank dark screen. Preserve the exact rounded wordmark \"MovieCat\" beneath it. Make \"Movie\" opaque solid charcoal and \"Cat\" opaque solid orange, with crisp clean edges and no surrounding effects. No text changes, no extra details and no redesign.\nThe deliverable is an isolated flat logo with genuine alpha transparency, not a scene or promotional graphic. No background, shadows, glow, aura, vignette, gradients outside the graphic, checkerboard, watermark, panel or mockup.",
+      "initial_prompt": "Use case: logo-brand.\nAsset type: combined MovieCat logo using two supplied finished assets.\nInput image 1: the white fat cat with black back stripes reclining on an orange vintage television. This is the finished graphic to preserve.\nInput image 2: the finished \"MovieCat\" wordmark. Preserve its exact lettering design and charcoal \"Movie\" / orange \"Cat\" color arrangement.\nPrimary request: arrange these two assets into one clean, beautifully balanced stacked logo. Center the cat-and-television graphic above the wordmark. Make the wordmark approximately the same visible width as the graphic and provide a deliberate comfortable clear gap between the television's feet and the lettering. Keep balanced transparent outer padding. This should feel like a cohesive professional app identity.\nPreserve the graphic: WHITE cat, BLACK stripes on its back, yellow eyes, smug relaxed expression, draped paws, long white tail, orange vintage television, two knobs and a completely BLANK dark screen. Do not add a play icon.\nPreserve the wordmark: exact text \"MovieCat\" once only, capital M and C, friendly chunky rounded custom sans serif, upright on one straight baseline. \"Movie\" near-black charcoal, \"Cat\" vivid warm orange matching the television. Use clean solid fills and crisp smooth edges; no red specks, color fringe or stray pixels.\nThis is a layout and assembly task: do not restyle the cat, redesign the television or invent a new typeface. The resulting logo should match both references as closely as possible.\nBackground: genuinely transparent with clean alpha. No panel, card, checkerboard pattern, mockup, shadows, 3D, slogan, additional symbols or extra text. Deliver one combined logo only."
+    },
+    {
+      "key": "moviecat-dark-wordmark",
+      "name": "MovieCat Dark Mode Wordmark",
+      "prefix": "06-moviecat-wordmark-dark",
+      "source": "/Users/fredrik/.codex/generated_images/01a148ee-53df-79e0-bc22-dadf1d9d4607/exec-0d0d55b9-b26b-4bb2-9dbc-adb94980837c.png",
+      "prompt": "Use case: logo-brand.\nAsset type: MovieCat wordmark for dark mode.\nInput image is the EDIT TARGET: the finished rounded \"MovieCat\" wordmark.\nMake exactly ONE change: recolor the letters \"Movie\" from dark charcoal to a bright soft WHITE, approximately #F7F7F5, so the wordmark reads clearly on a dark interface.\nKeep \"Cat\" exactly the same vivid warm orange as in the reference. Preserve every letter shape, stroke weight, kerning, relative scale, baseline, spacing and composition. Preserve the friendly chunky rounded lettering and exact spelling \"MovieCat\", capital M and C.\nThe two parts must be solid opaque fills with clean crisp edges. Keep the background genuinely transparent, including all counters and gaps, so the logo can be placed on any dark surface. Do not add a dark background, panel, outline, glow, shadow, gradient, icon, mockup, extra text, watermark or new decoration. Deliver the wordmark only, on a wide horizontal transparent canvas.",
+      "reference": "/Users/fredrik/Documents/moviecat/outputs/MovieCat Logo Concepts/06-moviecat-wordmark-v1.png",
+      "tool": "Built-in image generation",
+      "filename": "06-moviecat-wordmark-dark-v1.png",
+      "saved": "/Users/fredrik/Documents/moviecat/outputs/MovieCat Logo Concepts/06-moviecat-wordmark-dark-v1.png",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "key": "moviecat-dark-combined-logo",
+      "name": "MovieCat Dark Mode Combined Logo",
+      "prefix": "07-moviecat-logo-dark",
+      "source": "/Users/fredrik/.codex/generated_images/01a148ee-53df-79e0-bc22-dadf1d9d4607/exec-f3ee1dc9-bdf4-4d1a-8108-f18937900a03.png",
+      "prompt": "Use case: logo-brand.\nAsset type: MovieCat combined logo for dark mode.\nInput image is the EDIT TARGET: the finished white cat with black stripes lounging on an orange vintage television, above the \"MovieCat\" wordmark.\nMake exactly ONE change: recolor only the wordmark letters \"Movie\" from dark charcoal to bright soft WHITE, approximately #F7F7F5, for readability on a dark interface. Keep the wordmark letters \"Cat\" exactly the same vivid warm orange as in the reference.\nPreserve the entire cat-and-television graphic without changing its colors, shapes, pose or details: white fat cat, black back stripes, yellow eyes, orange television, two knobs, blank dark screen with no play symbol. Preserve the lettering design, all letter shapes, weight, kerning, baseline, scale and layout.\nKeep genuinely transparent background and clean crisp edges. Do not add a dark backdrop, panel, glow, haze, shadows, new outline, gradient, slogan, extra text, watermark or any other changes. Deliver the same combined logo with only \"Movie\" changed to white.",
+      "reference": "/Users/fredrik/Documents/moviecat/outputs/MovieCat Logo Concepts/07-moviecat-logo-v1.png",
+      "tool": "Built-in image generation",
+      "filename": "07-moviecat-logo-dark-v1.png",
+      "saved": "/Users/fredrik/Documents/moviecat/outputs/MovieCat Logo Concepts/07-moviecat-logo-dark-v1.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ]
+    }
+  ]
+}

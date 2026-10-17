@@ -5,6 +5,7 @@ import 'package:path/path.dart' as p;
 
 import '../core/filename_parser.dart';
 import '../core/library.dart';
+import 'brand.dart';
 import 'detail_dialog.dart';
 import 'discovery_dialog.dart';
 import 'settings_dialog.dart';
@@ -117,58 +118,14 @@ class _LibraryPageState extends State<LibraryPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/images/moviecat-wordmark-dark.svg',
-                        height: 34,
-                        semanticsLabel: 'MovieCat',
-                      ),
-                      const SizedBox(width: 20),
-                      Flexible(
-                        flex: 6,
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 340),
-                          child: TextField(
-                            decoration: const InputDecoration(
-                              isDense: true,
-                              prefixIcon: Icon(Icons.search),
-                              hintText: 'Search library',
-                              border: OutlineInputBorder(),
-                            ),
-                            onChanged: (v) => setState(() => _query = v),
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      OutlinedButton.icon(
-                        onPressed: _discover,
-                        icon: const Icon(Icons.travel_explore),
-                        label: const Text('Find automatically'),
-                      ),
-                      const SizedBox(width: 8),
-                      FilledButton.icon(
-                        onPressed: _addFolder,
-                        icon: const Icon(Icons.create_new_folder_outlined),
-                        label: const Text('Add folder'),
-                      ),
-                      const SizedBox(width: 4),
-                      IconButton(
-                        tooltip: 'Rescan folders',
-                        onPressed: lib.store.folders.isEmpty
-                            ? null
-                            : () => lib.scan(),
-                        icon: const Icon(Icons.refresh),
-                      ),
-                      IconButton(
-                        tooltip: 'Settings',
-                        onPressed: () => showDialog(
-                          context: context,
-                          builder: (_) => SettingsDialog(library: lib),
-                        ),
-                        icon: const Icon(Icons.settings_outlined),
-                      ),
-                    ],
+                  // Buttons lose their labels when space is short, so the
+                  // search field stays usable.
+                  LayoutBuilder(
+                    builder: (context, box) => _toolbarRow(
+                      context,
+                      compact: box.maxWidth < 880,
+                      showWordmark: box.maxWidth >= 560,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Wrap(
@@ -248,6 +205,80 @@ class _LibraryPageState extends State<LibraryPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _toolbarRow(
+    BuildContext context, {
+    required bool compact,
+    required bool showWordmark,
+  }) {
+    return Row(
+      children: [
+        if (showWordmark) ...[
+          SvgPicture.asset(
+            'assets/images/moviecat-wordmark-dark.svg',
+            height: 34,
+            semanticsLabel: 'MovieCat',
+          ),
+          const SizedBox(width: 20),
+        ],
+        Flexible(
+          flex: 6,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 340),
+            child: TextField(
+              decoration: const InputDecoration(
+                isDense: true,
+                prefixIcon: Icon(Icons.search),
+                hintText: 'Search library',
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (v) => setState(() => _query = v),
+            ),
+          ),
+        ),
+        const Spacer(),
+        if (compact) ...[
+          IconButton.outlined(
+            tooltip: 'Find movies automatically',
+            onPressed: _discover,
+            icon: const Icon(Icons.travel_explore),
+          ),
+          const SizedBox(width: 6),
+          IconButton.filled(
+            tooltip: 'Add folder',
+            onPressed: _addFolder,
+            icon: const Icon(Icons.create_new_folder_outlined),
+          ),
+        ] else ...[
+          OutlinedButton.icon(
+            onPressed: _discover,
+            icon: const Icon(Icons.travel_explore),
+            label: const Text('Find automatically'),
+          ),
+          const SizedBox(width: 8),
+          FilledButton.icon(
+            onPressed: _addFolder,
+            icon: const Icon(Icons.create_new_folder_outlined),
+            label: const Text('Add folder'),
+          ),
+        ],
+        const SizedBox(width: 4),
+        IconButton(
+          tooltip: 'Rescan folders',
+          onPressed: lib.store.folders.isEmpty ? null : () => lib.scan(),
+          icon: const Icon(Icons.refresh),
+        ),
+        IconButton(
+          tooltip: 'Settings',
+          onPressed: () => showDialog(
+            context: context,
+            builder: (_) => SettingsDialog(library: lib),
+          ),
+          icon: const Icon(Icons.settings_outlined),
+        ),
+      ],
     );
   }
 
@@ -456,7 +487,7 @@ class _PosterCard extends StatelessWidget {
                   const Icon(
                     Icons.star_rounded,
                     size: 15,
-                    color: Color(0xFF5799EF),
+                    color: brandOrange,
                   ),
                   const SizedBox(width: 3),
                   Text('My rating $mine', style: t.bodySmall),

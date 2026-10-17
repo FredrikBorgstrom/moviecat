@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'core/library.dart';
 import 'core/platform_access.dart';
 import 'core/store.dart';
+import 'ui/brand.dart';
 import 'ui/library_page.dart';
 import 'ui/setup_page.dart';
 
@@ -23,16 +24,10 @@ class MovieCatApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme(Brightness b) => ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF5B301), brightness: b),
-          useMaterial3: true,
-        );
     return MaterialApp(
       title: 'MovieCat',
       debugShowCheckedModeBanner: false,
-      theme: theme(Brightness.light),
-      darkTheme: theme(Brightness.dark),
-      themeMode: ThemeMode.dark,
+      theme: buildTheme(),
       home: ListenableBuilder(
         listenable: library,
         builder: (context, _) => library.store.setupDone

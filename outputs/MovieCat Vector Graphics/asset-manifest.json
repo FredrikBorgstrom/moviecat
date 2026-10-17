@@ -1,0 +1,125 @@
+{
+  "source_revision": "a8700362566b57fab0869added2507c381bf78db",
+  "exporter": "scripts/branding/vectorize_moviecat.py",
+  "exporter_sha256": "d49f899ce18495cb7e10110e186cbfd0510d251b507504ae082ce7bdfb365f5c",
+  "dependencies": {
+    "vtracer": "1.0.0a4",
+    "numpy": "2.5.0",
+    "Pillow": "12.1.1"
+  },
+  "simplify_pixels": 0.25,
+  "source_files": {
+    "icon": {
+      "path": "/Users/fredrik/Documents/abcx3_bun/outputs/MovieCat Logo Concepts/05-fat-cat-app-icon-v7.png",
+      "sha256": "3136947974eb0a23c812d2184e6714bac55126f306d2e12012b92322e565a211"
+    },
+    "wordmark": {
+      "path": "/Users/fredrik/Documents/abcx3_bun/outputs/MovieCat Logo Concepts/06-moviecat-wordmark-v1.png",
+      "sha256": "937ca2d4473f9ec0dd9093148af29405134b5a2021b91bc9874818c805047d86"
+    },
+    "dark_reference": {
+      "path": "/Users/fredrik/Documents/abcx3_bun/outputs/MovieCat Logo Concepts/06-moviecat-wordmark-dark-v1.png",
+      "sha256": "49bc79eec64f41738e93ea19fcb3afedf5dbd07bde85dccdc143aa642e4f0308"
+    }
+  },
+  "icon": {
+    "size": [
+      1254,
+      1254
+    ],
+    "palette": {
+      "outline": "#100D0C",
+      "screen": "#201D1E",
+      "television-orange": "#FD6F10",
+      "white-fur-and-details": "#FFFFFF",
+      "gold-eyes": "#FFDC2A"
+    }
+  },
+  "wordmark": {
+    "source_size": [
+      2172,
+      724
+    ],
+    "viewBox": [
+      51,
+      168,
+      2058,
+      387
+    ]
+  },
+  "exports": [
+    {
+      "filename": "moviecat-icon.svg",
+      "bytes": 17946,
+      "paths": 15,
+      "viewBox": "0 0 1254 1254",
+      "raster_images": 0,
+      "font_dependencies": 0,
+      "sha256": "38a1d30a4345219348cc78bb9de7fa1fcc91757c897494c6c0118bef95600b82"
+    },
+    {
+      "filename": "moviecat-wordmark-light.svg",
+      "bytes": 7636,
+      "paths": 9,
+      "viewBox": "51 168 2058 387",
+      "raster_images": 0,
+      "font_dependencies": 0,
+      "sha256": "373f16019d2e690f93c7b79694e7274c747afc9d2446e0751d736125669698e1"
+    },
+    {
+      "filename": "moviecat-wordmark-dark.svg",
+      "bytes": 7655,
+      "paths": 9,
+      "viewBox": "51 168 2058 387",
+      "raster_images": 0,
+      "font_dependencies": 0,
+      "sha256": "7e47ed91e27f7d8ace0185267b2c67adf4939964ab94925fe9c730b9381df8fa"
+    },
+    {
+      "filename": "moviecat-logo-light.svg",
+      "bytes": 25434,
+      "paths": 24,
+      "viewBox": "0 0 1360 1585",
+      "raster_images": 0,
+      "font_dependencies": 0,
+      "sha256": "6871a306e809deff29c3c0c81bdddcb5de531b664958a7ada1f4849251314744"
+    },
+    {
+      "filename": "moviecat-logo-dark.svg",
+      "bytes": 25433,
+      "paths": 24,
+      "viewBox": "0 0 1360 1585",
+      "raster_images": 0,
+      "font_dependencies": 0,
+      "sha256": "3dd0681265dc3a00d91de6df6f87875621d32f003789df81d7e5abd9d300c821"
+    }
+  ],
+  "notes": [
+    "Raster shading is deliberately flattened to editable solid-color vector groups.",
+    "Dark lettering reuses the light lettering paths, changing only the Movie fill.",
+    "Combined logos compose the approved standalone masters rather than retracing the generated composites.",
+    "No raster images, external resources, text objects or font dependencies are embedded in the SVG files."
+  ],
+  "validation": {
+    "icon": {
+      "silhouette_intersection_over_union": 0.9978087052674872,
+      "changed_boundary_pixels": 2275
+    },
+    "wordmark-light": {
+      "silhouette_intersection_over_union": 0.9909260057634272,
+      "changed_boundary_pixels": 3999
+    },
+    "theme_geometry_identical": true,
+    "transparent_corners": true,
+    "no_raster_images": true,
+    "no_font_dependencies": true,
+    "source_files_unchanged": true,
+    "renderer": "@resvg/resvg-js 2.6.2",
+    "checked_icon_sizes": [
+      1254,
+      64,
+      32
+    ]
+  },
+  "supporting_artifacts": "/Users/fredrik/Documents/abcx3_bun/artifacts/MovieCat Vectorization"
+}
