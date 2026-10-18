@@ -35,7 +35,8 @@ jobs:
           - os: windows-latest
             target: windows
             artifact: MovieCat-windows-x64.zip
-          - os: ubuntu-latest
+          # The oldest supported Ubuntu LTS, so the AppImage runs on older glibc too.
+          - os: ubuntu-22.04
             target: linux
             artifact: MovieCat-linux-x64.tar.gz
     runs-on: ${{ matrix.os }}
@@ -64,18 +65,54 @@ jobs:
         shell: pwsh
         run: Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath ${{ matrix.artifact }}
 
+      - name: Installer (Windows)
+        if: matrix.target == 'windows'
+        shell: pwsh
+        run: |
+          $version = (Select-String -Path pubspec.yaml -Pattern '^version: ([0-9.]+)').Matches[0].Groups[1].Value
+          iscc /DAppVersion=$version windows\installer\moviecat.iss
+          Move-Item build\installer\MovieCat-windows-x64-setup.exe .
+
       - name: Package (Linux)
         if: matrix.target == 'linux'
         run: tar -czf ${{ matrix.artifact }} -C build/linux/x64/release/bundle .
 
+      - name: AppImage (Linux)
+        if: matrix.target == 'linux'
+        run: |
+          sudo apt-get install -y desktop-file-utils
+          id=io.github.fredrikborgstrom.moviecat
+          app=AppDir
+          mkdir -p $app/usr/bin $app/usr/share/applications $app/usr/share/metainfo $app/usr/share/icons/hicolor/256x256/apps
+          cp -r build/linux/x64/release/bundle/. $app/usr/bin/
+          cp linux/packaging/$id.desktop $app/usr/share/applications/
+          cp linux/packaging/$id.desktop $app/
+          cp linux/packaging/$id.metainfo.xml $app/usr/share/metainfo/
+          cp linux/packaging/$id.png $app/usr/share/icons/hicolor/256x256/apps/
+          cp linux/packaging/$id.png $app/
+          printf '#!/bin/sh\nhere="$(dirname "$(readlink -f "$0")")"\nexec "$here/usr/bin/moviecat" "$@"\n' > $app/AppRun
+          chmod +x $app/AppRun
+          desktop-file-validate $app/$id.desktop
+          wget -q https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+          ARCH=x86_64 ./appimagetool-x86_64.AppImage --appimage-extract-and-run $app MovieCat-x86_64.AppImage
+
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}
-          path: ${{ matrix.artifact }}
+          path: |
+            ${{ matrix.artifact }}
+            MovieCat-windows-x64-setup.exe
+            MovieCat-x86_64.AppImage
+          if-no-files-found: ignore
 
       - name: Attach to GitHub release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ matrix.artifact }}
+          files: |
+            ${{ matrix.artifact }}
+            MovieCat-windows-x64-setup.exe
+            MovieCat-x86_64.AppImage
+          fail_on_unmatched_files: false
           generate_release_notes: true

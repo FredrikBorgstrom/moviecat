@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=MovieCat
+GenericName=Movie Library
+Comment=Browse your movie and TV files with posters, ratings and summaries
+Exec=moviecat
+Icon=io.github.fredrikborgstrom.moviecat
+Terminal=false
+Categories=AudioVideo;Video;
+Keywords=movies;films;tv;series;library;catalog;collection;posters;
+StartupWMClass=moviecat

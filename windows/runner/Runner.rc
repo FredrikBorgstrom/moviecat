@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "io.github.fredrikborgstrom" "\0"
-            VALUE "FileDescription", "moviecat" "\0"
+            VALUE "CompanyName", "AB Cx3" "\0"
+            VALUE "FileDescription", "MovieCat" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "moviecat" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 io.github.fredrikborgstrom. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 AB Cx3. MIT License." "\0"
             VALUE "OriginalFilename", "moviecat.exe" "\0"
-            VALUE "ProductName", "moviecat" "\0"
+            VALUE "ProductName", "MovieCat" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

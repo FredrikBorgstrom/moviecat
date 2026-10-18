@@ -1,0 +1,29 @@
+{
+    "version": "1.1.0",
+    "description": "Browse your movie and TV files with posters, ratings and summaries.",
+    "homepage": "https://moviecat.org",
+    "license": "MIT",
+    "suggest": {
+        "vcredist": "extras/vcredist2022"
+    },
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/FredrikBorgstrom/moviecat/releases/download/v1.1.0/MovieCat-windows-x64.zip",
+            "hash": "TBD"
+        }
+    },
+    "shortcuts": [
+        [
+            "moviecat.exe",
+            "MovieCat"
+        ]
+    ],
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/FredrikBorgstrom/moviecat/releases/download/v$version/MovieCat-windows-x64.zip"
+            }
+        }
+    }
+}
