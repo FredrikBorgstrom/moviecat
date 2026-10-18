@@ -32,15 +32,17 @@ section { padding: 72px 0; }
 /* Header */
 .top { position: sticky; top: 0; z-index: 10; background: rgba(21, 19, 18, .85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 .top-inner { display: flex; align-items: center; gap: 28px; height: 76px; }
-.top-inner nav { margin-left: auto; }
-.brand { display: flex; align-items: center; gap: 10px; }
+.top-inner nav { margin-left: auto; flex-shrink: 0; }
+.brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .brand .wordmark { width: 140px; height: auto; }
 nav { display: flex; gap: 22px; }
 nav a { color: var(--muted); text-decoration: none; font-size: .95rem; }
 nav a:hover { color: var(--text); }
 
 /* ABCx3 promotion */
-.promo-mini img { height: 56px; width: auto; border-radius: 8px; transition: transform .15s; }
+.promo-mini { flex: 0 1 auto; min-width: 0; }
+.promo-mini picture { display: block; }
+.promo-mini img { height: 56px; width: auto; max-width: 100%; object-fit: contain; border-radius: 8px; transition: transform .15s; }
 .promo-mini:hover img { transform: scale(1.04); }
 .abcx3 { background: linear-gradient(180deg, var(--bg) 0%, #2a1414 100%); border-top: 1px solid var(--line); }
 .promo { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
@@ -121,7 +123,7 @@ footer a { color: var(--muted); }
   .top-inner { gap: 12px; height: 64px; }
   nav { gap: 14px; }
   nav a:last-child { display: none; }
-  .promo-mini img { height: 40px; }
+  .promo-mini img { height: auto; max-height: 48px; }
   .promo { grid-template-columns: 1fr; gap: 24px; }
   .top-inner { justify-content: space-between; }
   .brand .wordmark { width: 110px; }
@@ -129,6 +131,13 @@ footer a { color: var(--muted); }
   .split { gap: 24px; }
 }
 
-@media (max-width: 560px) {
+/* Below 700px the header shows the compact two-row ABCx3 banner. */
+@media (max-width: 700px) {
+  .top-inner { height: 76px; }
+  .promo-mini img { max-height: 60px; }
+}
+
+@media (max-width: 600px) {
   .top nav { display: none; }
+  .brand .wordmark { display: none; }
 }
