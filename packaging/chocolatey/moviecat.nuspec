@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chocolatey package. CI fills in the version and installer checksum, see .github/workflows/build.yml. -->
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>moviecat</id>
+    <version>{{VERSION}}</version>
+    <title>MovieCat</title>
+    <authors>AB Cx3</authors>
+    <owners>FredrikBorgstrom</owners>
+    <projectUrl>https://moviecat.org</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/FredrikBorgstrom/moviecat/main/linux/packaging/io.github.fredrikborgstrom.moviecat.png</iconUrl>
+    <licenseUrl>https://github.com/FredrikBorgstrom/moviecat/blob/main/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectSourceUrl>https://github.com/FredrikBorgstrom/moviecat</projectSourceUrl>
+    <packageSourceUrl>https://github.com/FredrikBorgstrom/moviecat/tree/main/packaging/chocolatey</packageSourceUrl>
+    <bugTrackerUrl>https://github.com/FredrikBorgstrom/moviecat/issues</bugTrackerUrl>
+    <releaseNotes>https://github.com/FredrikBorgstrom/moviecat/releases/tag/v{{VERSION}}</releaseNotes>
+    <copyright>2026 AB Cx3</copyright>
+    <tags>moviecat movies tv-shows library catalog organizer posters foss</tags>
+    <summary>Your movie and TV files as a library with posters, ratings and summaries.</summary>
+    <description><![CDATA[MovieCat scans your folders for movie and TV files, recognises each title from its file name and shows the poster, rating, year and a short summary. No account, sign-up or API key needed.
+
+- Understands messy release names, folder layouts, TV episodes and foreign titles
+- Finds the folders that hold your movies and shows automatically
+- Leaves out home videos, screen recordings and tutorials
+- Rate titles yourself, search, filter and sort
+- Fix a wrong match in seconds; play a file or show it in File Explorer with one click
+
+MovieCat is free and open source (MIT).
+]]></description>
+    <dependencies>
+      <dependency id="vcredist140" version="14.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>

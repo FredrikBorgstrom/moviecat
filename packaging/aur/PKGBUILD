@@ -1,0 +1,35 @@
+# Maintainer: Fredrik Borgström <fredrik@abcx3.com>
+pkgname=moviecat-bin
+pkgver=1.1.0
+pkgrel=1
+pkgdesc="Movie and TV file library with posters, ratings and summaries"
+arch=('x86_64')
+url="https://moviecat.org"
+license=('MIT')
+depends=('gtk3' 'glib2' 'cairo' 'gdk-pixbuf2' 'libepoxy' 'fontconfig' 'hicolor-icon-theme' 'gcc-libs' 'glibc')
+provides=('moviecat')
+conflicts=('moviecat')
+options=('!strip' '!debug')
+_id=io.github.fredrikborgstrom.moviecat
+_raw="https://raw.githubusercontent.com/FredrikBorgstrom/moviecat/v$pkgver"
+source=("MovieCat-linux-x64-$pkgver.tar.gz::https://github.com/FredrikBorgstrom/moviecat/releases/download/v$pkgver/MovieCat-linux-x64.tar.gz"
+        "$_id-$pkgver.desktop::$_raw/linux/packaging/$_id.desktop"
+        "$_id-$pkgver.metainfo.xml::$_raw/linux/packaging/$_id.metainfo.xml"
+        "$_id-$pkgver.png::$_raw/linux/packaging/$_id.png"
+        "LICENSE-$pkgver::$_raw/LICENSE")
+noextract=("MovieCat-linux-x64-$pkgver.tar.gz")
+sha256sums=('12b7dafefc7efa635c0592b8eec42fcd0ca97e36712bec27a86f1166b756186c'
+            '67d532b16c32cbd7a32ff942da13ffb0882270a6072212342b4034eefadf98e6'
+            '3900aef222816778b9cab29f6e80cc11ec1fdb71ba8dd0121eb594d5f22485d7'
+            '8911e3e1646996caf7b361a6024e3eb4fed0812ca9a7f002fa502cb7c4fb5120'
+            '1b704035455cd0527d50d13eb5f7ee00efca8bcdc8478cdbdae815623ed7d767')
+
+package() {
+  install -d "$pkgdir/opt/moviecat" "$pkgdir/usr/bin"
+  bsdtar --no-same-owner -xf "MovieCat-linux-x64-$pkgver.tar.gz" -C "$pkgdir/opt/moviecat"
+  ln -s /opt/moviecat/moviecat "$pkgdir/usr/bin/moviecat"
+  install -Dm644 "$_id-$pkgver.desktop" "$pkgdir/usr/share/applications/$_id.desktop"
+  install -Dm644 "$_id-$pkgver.metainfo.xml" "$pkgdir/usr/share/metainfo/$_id.metainfo.xml"
+  install -Dm644 "$_id-$pkgver.png" "$pkgdir/usr/share/icons/hicolor/256x256/apps/$_id.png"
+  install -Dm644 "LICENSE-$pkgver" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

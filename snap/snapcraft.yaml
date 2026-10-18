@@ -1,0 +1,61 @@
+# Snap Store package. Built in CI from the Linux release bundle
+# (MovieCat-linux-x64.tar.gz, put next to this repo's root by the workflow).
+name: moviecat
+title: MovieCat
+base: core24
+adopt-info: moviecat
+summary: Your movie and TV file library, with posters, ratings and summaries
+description: |
+  MovieCat scans your folders for movie and TV files, recognises each title
+  from its file name and shows the poster, rating, year and a short summary.
+  No account, sign-up or API key needed.
+
+  - Understands messy release names, folder layouts, TV episodes and foreign titles
+  - Finds the folders that hold your movies and shows automatically
+  - Leaves out home videos, screen recordings and tutorials
+  - Rate titles yourself, search, filter and sort
+  - Fix a wrong match in seconds; play a file or show it in its folder with one click
+
+  Files in your home folder and on removable drives (/media, /mnt) can be
+  added. MovieCat is free and open source (MIT).
+license: MIT
+icon: linux/packaging/io.github.fredrikborgstrom.moviecat.png
+website: https://moviecat.org
+contact: https://github.com/FredrikBorgstrom/moviecat/issues
+issues: https://github.com/FredrikBorgstrom/moviecat/issues
+source-code: https://github.com/FredrikBorgstrom/moviecat
+grade: stable
+confinement: strict
+platforms:
+  amd64:
+
+apps:
+  moviecat:
+    command: moviecat
+    common-id: io.github.fredrikborgstrom.moviecat
+    desktop: usr/share/applications/io.github.fredrikborgstrom.moviecat.desktop
+    extensions: [gnome]
+    plugs:
+      - network
+      - home
+      - removable-media
+
+parts:
+  moviecat:
+    plugin: dump
+    source: MovieCat-linux-x64.tar.gz
+    source-type: tar
+    stage-packages:
+      - libglib2.0-bin # `gio trash`, used to move files to the trash
+    override-pull: |
+      craftctl default
+      craftctl set version="$(sed -n 's/^version: \([0-9.]*\).*/\1/p' $CRAFT_PROJECT_DIR/pubspec.yaml)"
+
+  metadata:
+    plugin: nil
+    source: linux/packaging
+    override-build: |
+      id=io.github.fredrikborgstrom.moviecat
+      install -Dm644 $id.metainfo.xml $CRAFT_PART_INSTALL/usr/share/metainfo/$id.metainfo.xml
+      install -Dm644 $id.desktop $CRAFT_PART_INSTALL/usr/share/applications/$id.desktop
+      sed -i 's|^Icon=.*|Icon=${SNAP}/meta/gui/icon.png|' $CRAFT_PART_INSTALL/usr/share/applications/$id.desktop
