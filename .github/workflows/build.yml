@@ -42,6 +42,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       CHOCOLATEY_API_KEY: ${{ secrets.CHOCOLATEY_API_KEY }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -138,13 +139,17 @@ jobs:
         shell: pwsh
         run: |
           $version = (Select-String -Path pubspec.yaml -Pattern '^version: ([0-9.]+)').Matches[0].Groups[1].Value
-          $checksum = (Get-FileHash MovieCat-windows-x64-setup.exe -Algorithm SHA256).Hash
+          # Checksum of the installer on the GitHub release (the one users download);
+          # falls back to this build's installer when that version isn't released yet.
+          gh release download "v$version" -p MovieCat-windows-x64-setup.exe -D released 2>$null
+          $installer = if (Test-Path released/MovieCat-windows-x64-setup.exe) { 'released/MovieCat-windows-x64-setup.exe' } else { 'MovieCat-windows-x64-setup.exe' }
+          $checksum = (Get-FileHash $installer -Algorithm SHA256).Hash
           Copy-Item -Recurse packaging/chocolatey choco
           foreach ($f in 'choco/moviecat.nuspec', 'choco/tools/chocolateyinstall.ps1') {
             (Get-Content $f -Raw).Replace('{{VERSION}}', $version).Replace('{{CHECKSUM}}', $checksum) | Set-Content $f -NoNewline
           }
           choco pack choco/moviecat.nuspec --outputdirectory .
-          if ($env:GITHUB_REF -like 'refs/tags/v*' -and $env:CHOCOLATEY_API_KEY) {
+          if (($env:GITHUB_REF -like 'refs/tags/v*' -or $env:GITHUB_EVENT_NAME -eq 'workflow_dispatch') -and $env:CHOCOLATEY_API_KEY -and (Test-Path released)) {
             choco push "moviecat.$version.nupkg" --source https://push.chocolatey.org/ --api-key $env:CHOCOLATEY_API_KEY
           }
 
@@ -169,7 +174,7 @@ jobs:
           name: moviecat-snap
           path: ${{ steps.snap.outputs.snap }}
       - uses: snapcore/action-publish@v1
-        if: startsWith(github.ref, 'refs/tags/v') && env.SNAPCRAFT_STORE_CREDENTIALS != ''
+        if: (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch') && env.SNAPCRAFT_STORE_CREDENTIALS != ''
         with:
           snap: ${{ steps.snap.outputs.snap }}
           release: stable
@@ -178,7 +183,7 @@ jobs:
   # secret is set. Uses the release assets, so it runs after the build jobs.
   aur:
     needs: build
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     env:
       AUR_SSH_PRIVATE_KEY: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
@@ -188,7 +193,7 @@ jobs:
       - name: Set version
         if: env.AUR_SSH_PRIVATE_KEY != ''
         run: |
-          version=${GITHUB_REF_NAME#v}
+          version=$(sed -n 's/^version: \([0-9.]*\).*/\1/p' pubspec.yaml)
           sed -i -e "s/^pkgver=.*/pkgver=$version/" -e "s/^pkgrel=.*/pkgrel=1/" packaging/aur/PKGBUILD
       - uses: KSXGitHub/github-actions-deploy-aur@v4.2.0
         if: env.AUR_SSH_PRIVATE_KEY != ''
@@ -199,4 +204,4 @@ jobs:
           commit_username: Fredrik Borgström
           commit_email: fredrik@abcx3.com
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
-          commit_message: Update to ${{ github.ref_name }}
+          commit_message: Update from ${{ github.repository }}@${{ github.sha }}
