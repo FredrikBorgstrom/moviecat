@@ -1,5 +1,7 @@
 # MovieCat
 
+Website: <https://moviecat.org>
+
 A desktop app for **macOS, Windows and Linux** that scans your folders for movie and TV files, recognises each title from its file name, and shows the poster, rating, year and a short summary.
 
 **No API key or account needed.** MovieCat works out of the box with free public sources. A free TMDB key is optional.
@@ -91,6 +93,10 @@ lib/core/media_filter.dart      tells movies/episodes apart from home videos and
 lib/core/store.dart             settings and cache (JSON in the app data folder)
 lib/ui/                         setup screen, library grid, detail and settings dialogs
 ```
+
+## Website
+
+The site at <https://moviecat.org> is plain HTML/CSS in `website/`, served by Cloudflare Workers (`wrangler.jsonc`). Preview locally with `python3 -m http.server -d website`, deploy with `npx wrangler deploy`.
 
 ## License
 

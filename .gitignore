@@ -50,3 +50,6 @@ app.*.map.json
 # App Store review contact (personal details)
 appstore/review_contact.json
 appstore/asc.local.json
+
+# Cloudflare Wrangler cache
+.wrangler/

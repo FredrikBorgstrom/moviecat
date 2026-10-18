@@ -1,0 +1,19 @@
+// moviecat.org: static website in website/, served by Cloudflare Workers.
+// Deploy: npx wrangler deploy
+// The moviecat.org zone lives in the Cloudflare account hostup.se created for us
+// ("Client #3247"); hostup's nameservers are Cloudflare's, so DNS is managed there.
+{
+  "name": "moviecat",
+  "account_id": "d17e31c2abccd7ec4968615a75331d1e",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "moviecat.org", "custom_domain": true },
+    { "pattern": "www.moviecat.org", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./website",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

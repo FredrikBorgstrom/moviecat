@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://moviecat.org/sitemap.xml

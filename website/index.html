@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MovieCat – your movie &amp; TV file library</title>
+<meta name="description" content="MovieCat turns folders full of video files into a browsable movie library with posters, ratings and summaries. Free for macOS, Windows and Linux. No account or API key needed.">
+<link rel="canonical" href="https://moviecat.org/">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#151312">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://moviecat.org/">
+<meta property="og:title" content="MovieCat – your movie &amp; TV file library">
+<meta property="og:description" content="Point MovieCat at your movie folders and see posters, ratings and summaries for every film and show. No account or API key needed.">
+<meta property="og:image" content="https://moviecat.org/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="/" aria-label="MovieCat home">
+      <img src="/img/app-icon.webp" width="44" height="44" alt="">
+      <img class="wordmark" src="/img/wordmark.svg" width="140" height="26" alt="MovieCat">
+    </a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#download">Download</a>
+      <a href="https://github.com/FredrikBorgstrom/moviecat">GitHub</a>
+    </nav>
+    <a class="promo-mini" href="https://play.abcx3.com/get/" title="ABCx3 – multiplayer word game. Free to play, no ads.">
+      <img src="/img/abcx3-banner.webp" width="1086" height="362" alt="ABCx3 – multiplayer word game. Ad free, free to play.">
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Your movie files,<br><span class="accent">finally looking like a library.</span></h1>
+      <p class="lead">MovieCat scans your folders for movies and TV shows, recognises each title from its file name, and shows the poster, rating, year and a short summary. Free for macOS, Windows and Linux.</p>
+      <div class="cta">
+        <a class="btn primary" id="hero-download" href="#download">Download MovieCat</a>
+        <span class="note">No account, no sign-up, no API key.</span>
+      </div>
+      <figure class="shot">
+        <img src="/img/1-library.webp" width="1600" height="1000" alt="MovieCat library view: a grid of movie posters with IMDb ratings">
+      </figure>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="wrap">
+      <h2>Everything you need, nothing you don't</h2>
+      <div class="grid">
+        <article>
+          <h3>Works instantly</h3>
+          <p>Add a folder and watch the posters appear. MovieCat uses free public movie databases, so there's nothing to sign up for.</p>
+        </article>
+        <article>
+          <h3>Finds your movies for you</h3>
+          <p>"Find movies automatically" searches your home folder and external drives and proposes the folders that hold films and series.</p>
+        </article>
+        <article>
+          <h3>TV shows, grouped</h3>
+          <p>Episodes are recognised by season and episode number and grouped per show, including anime-style numbering.</p>
+        </article>
+        <article>
+          <h3>Leaves out the noise</h3>
+          <p>Home videos, screen recordings, phone clips and tutorials stay out of your library, even in folders that mix them with movies.</p>
+        </article>
+        <article>
+          <h3>Rate, search, sort</h3>
+          <p>Give titles your own 1–10 rating, filter by movies or TV, and sort by title, year, rating or date modified.</p>
+        </article>
+        <article>
+          <h3>Fix a match in seconds</h3>
+          <p>If a title is wrong, search and pick the right one. MovieCat remembers your choice.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="names">
+    <div class="wrap split">
+      <div>
+        <h2>Messy file names? No problem.</h2>
+        <p>MovieCat understands typical release names, folder layouts and even foreign titles.</p>
+      </div>
+      <ul class="examples">
+        <li><code>The.Matrix.1999.1080p.BluRay.x264.mkv</code><span>The Matrix (1999)</span></li>
+        <li><code>Breaking.Bad.S01E02.720p.mkv</code><span>Breaking Bad · S1 E2</span></li>
+        <li><code>Fargo/Season 2/S02E03.mkv</code><span>Fargo · S2 E3</span></li>
+        <li><code>Heat (1995)/movie.mkv</code><span>Heat (1995)</span></li>
+        <li><code>Det.Sjunde.Inseglet.1957.mkv</code><span>The Seventh Seal (1957)</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="gallery">
+    <div class="wrap">
+      <div class="shots">
+        <figure><img src="/img/2-detail.webp" width="1600" height="1000" loading="lazy" alt="Detail view with summary, genres, IMDb rating and your own rating"><figcaption>Details, your own rating, and play or show the file in one click.</figcaption></figure>
+        <figure><img src="/img/4-welcome.webp" width="1600" height="1000" loading="lazy" alt="MovieCat welcome screen"><figcaption>Up and running in a minute.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="privacy-band">
+    <div class="wrap">
+      <h2>Private by design</h2>
+      <p>No accounts, no analytics, no tracking. Your library stays on your computer; only the titles read from file names are sent to public movie databases to look them up. <a href="/privacy">Read the privacy policy</a>.</p>
+    </div>
+  </section>
+
+  <section id="download" class="download">
+    <div class="wrap">
+      <h2>Download</h2>
+      <p class="sub">Free and open source (MIT). Latest version from GitHub.</p>
+      <div class="dl-grid">
+        <a class="dl" data-os="mac" href="https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-macos.zip">
+          <strong>macOS</strong><span>MovieCat-macos.zip</span>
+        </a>
+        <a class="dl" data-os="win" href="https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-windows-x64.zip">
+          <strong>Windows</strong><span>MovieCat-windows-x64.zip</span>
+        </a>
+        <a class="dl" data-os="linux" href="https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-linux-x64.tar.gz">
+          <strong>Linux</strong><span>MovieCat-linux-x64.tar.gz</span>
+        </a>
+      </div>
+      <ul class="dl-notes">
+        <li><b>macOS:</b> the download isn't signed, so the first time, right-click MovieCat → <b>Open</b>. A Mac App Store version is on its way.</li>
+        <li><b>Windows:</b> unzip and run <code>moviecat.exe</code>.</li>
+        <li><b>Linux:</b> extract and run <code>./moviecat</code> (needs GTK 3).</li>
+      </ul>
+      <p class="sub">Older versions are on the <a href="https://github.com/FredrikBorgstrom/moviecat/releases">releases page</a>.</p>
+    </div>
+  </section>
+
+  <section class="abcx3">
+    <div class="wrap promo">
+      <a class="promo-img" href="https://play.abcx3.com/get/">
+        <img src="/img/abcx3-banner.webp" width="1086" height="362" loading="lazy" alt="ABCx3 – multiplayer word game. Ad free, free to play.">
+      </a>
+      <div>
+        <p class="kicker">From the maker of MovieCat</p>
+        <h2>Play ABCx3</h2>
+        <p>A multiplayer word game where you create, play and compete. Free to play, no ads. For iPhone, iPad, Android, Mac and the web.</p>
+        <a class="btn primary abcx3-btn" href="https://play.abcx3.com/get/">Get ABCx3 free</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 AB Cx3</span>
+    <a href="/privacy">Privacy</a>
+    <a href="https://github.com/FredrikBorgstrom/moviecat/issues">Support</a>
+    <a href="https://github.com/FredrikBorgstrom/moviecat">Source code</a>
+  </div>
+  <p class="wrap credits">MovieCat is not affiliated with IMDb. TV data from TVmaze. This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+</footer>
+
+<script>
+  // Point the hero button at the right download and highlight it.
+  (function () {
+    var ua = navigator.userAgent, os = /Mac/.test(ua) ? 'mac' : /Win/.test(ua) ? 'win' : /Linux|X11/.test(ua) && !/Android/.test(ua) ? 'linux' : null;
+    if (!os) return;
+    var link = document.querySelector('.dl[data-os="' + os + '"]');
+    link.classList.add('mine');
+    var hero = document.getElementById('hero-download');
+    hero.href = link.href;
+    hero.textContent = 'Download for ' + link.querySelector('strong').textContent;
+  })();
+</script>
+</body>
+</html>
