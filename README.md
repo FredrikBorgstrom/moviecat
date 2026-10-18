@@ -108,6 +108,10 @@ lib/ui/                         setup screen, library grid, detail and settings 
 
 The site at <https://moviecat.org> is plain HTML/CSS in `website/`, served by Cloudflare Workers (`wrangler.jsonc`). Preview locally with `python3 -m http.server -d website`, deploy with `npx wrangler deploy`.
 
+## How MovieCat is made
+
+MovieCat is written largely with generative AI: most of the code, tests and packaging were written by Anthropic's Claude (Claude Code), working in this repository on instructions from Fredrik Borgström, who decides what the app should do, tries the builds and decides what ships. Commits made this way carry a `Co-Authored-By: Claude` line. Unit tests for the file-name parser and the media filter, plus `flutter analyze`, run in CI on every push, and each release is built by GitHub Actions from the tagged source.
+
 ## License
 
 MIT
