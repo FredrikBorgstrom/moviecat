@@ -52,6 +52,34 @@ class PlatformAccess {
     }
   }
 
+  /// What the platform calls the place deleted files go.
+  static String get trashName => Platform.isWindows ? 'Recycle Bin' : 'Trash';
+
+  /// Moves a file to the Trash (Recycle Bin on Windows). Throws on failure.
+  static Future<void> trash(String path) async {
+    if (Platform.isMacOS) {
+      await _channel.invokeMethod('trash', path);
+      return;
+    }
+    final ProcessResult r;
+    if (Platform.isWindows) {
+      // The path goes in through the environment, so it never needs quoting.
+      r = await Process.run('powershell', [
+        '-NoProfile',
+        '-NonInteractive',
+        '-Command',
+        r"Add-Type -AssemblyName Microsoft.VisualBasic; "
+            r"[Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile("
+            r"$env:MOVIECAT_TRASH, 'OnlyErrorDialogs', 'SendToRecycleBin')",
+      ], environment: {'MOVIECAT_TRASH': path});
+    } else {
+      r = await Process.run('gio', ['trash', '--', path]);
+    }
+    if (r.exitCode != 0) {
+      throw FileSystemException('${r.stderr}'.trim(), path);
+    }
+  }
+
   /// Shows a file in Finder (macOS only).
   static Future<void> reveal(String path) => _channel.invokeMethod('reveal', path);
 }

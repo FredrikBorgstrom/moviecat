@@ -18,7 +18,7 @@ class MainFlutterWindow: NSWindow {
     super.awakeFromNib()
   }
 
-  /// Sandbox helpers: security-scoped bookmarks, the real home folder and Finder reveal.
+  /// Sandbox helpers: security-scoped bookmarks, the real home folder, Finder reveal and Trash.
   private func registerPlatformChannel(_ messenger: FlutterBinaryMessenger) {
     let channel = FlutterMethodChannel(name: "moviecat/macos", binaryMessenger: messenger)
     channel.setMethodCallHandler { [weak self] call, result in
@@ -37,7 +37,7 @@ class MainFlutterWindow: NSWindow {
         guard let path = call.arguments as? String else { return result(nil) }
         do {
           let data = try URL(fileURLWithPath: path).bookmarkData(
-            options: [.withSecurityScope, .securityScopeAllowOnlyReadAccess],
+            options: [.withSecurityScope],
             includingResourceValuesForKeys: nil, relativeTo: nil)
           result(data.base64EncodedString())
         } catch {
@@ -57,6 +57,15 @@ class MainFlutterWindow: NSWindow {
           self?.accessedURLs.append(url)
         }
         result(["path": url.path, "stale": stale])
+
+      case "trash":
+        guard let path = call.arguments as? String else { return result(nil) }
+        do {
+          try FileManager.default.trashItem(at: URL(fileURLWithPath: path), resultingItemURL: nil)
+          result(nil)
+        } catch {
+          result(FlutterError(code: "trash", message: error.localizedDescription, details: nil))
+        }
 
       case "reveal":
         guard let path = call.arguments as? String else { return result(nil) }

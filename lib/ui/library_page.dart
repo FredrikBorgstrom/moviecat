@@ -15,7 +15,7 @@ import 'widgets.dart';
 
 enum _Filter { all, movies, series, unmatched }
 
-enum _Sort { title, year, rating, myRating }
+enum _Sort { title, year, modified, rating, myRating }
 
 class LibraryPage extends StatefulWidget {
   final Library library;
@@ -70,6 +70,7 @@ class _LibraryPageState extends State<LibraryPage> {
       final r = switch (_sort) {
         _Sort.title => 0,
         _Sort.year => desc(a.displayYear, b.displayYear),
+        _Sort.modified => b.modified.compareTo(a.modified),
         _Sort.rating => desc(
           a.info?.primaryRating?.value,
           b.info?.primaryRating?.value,
@@ -173,6 +174,10 @@ class _LibraryPageState extends State<LibraryPage> {
                             child: Text('Year (newest)'),
                           ),
                           PopupMenuItem(
+                            value: _Sort.modified,
+                            child: Text('Date modified (newest)'),
+                          ),
+                          PopupMenuItem(
                             value: _Sort.rating,
                             child: Text('Rating (highest)'),
                           ),
@@ -187,6 +192,7 @@ class _LibraryPageState extends State<LibraryPage> {
                             'Sort: ${switch (_sort) {
                               _Sort.title => 'Title',
                               _Sort.year => 'Year',
+                              _Sort.modified => 'Date modified',
                               _Sort.rating => 'Rating',
                               _Sort.myRating => 'My rating',
                             }}',

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 
 import 'filename_parser.dart';
@@ -18,11 +19,12 @@ enum ItemStatus { pending, matched, unmatched, error }
 class MediaFile {
   final String path;
   final int size;
+  final DateTime modified;
   final ParsedName parsed;
 
   /// Comes from a strict folder: only shown if confidently recognised.
   final bool strict;
-  const MediaFile(this.path, this.size, this.parsed, {this.strict = false});
+  const MediaFile(this.path, this.size, this.modified, this.parsed, {this.strict = false});
 }
 
 /// One card in the library: a movie or show, with every file that belongs to it.
@@ -47,6 +49,10 @@ class LibraryItem {
   String get displayTitle => info?.title ?? parsed.title;
   int? get displayYear => info?.year ?? parsed.year;
   MediaKind get kind => info?.kind ?? parsed.kind;
+
+  /// When the newest file of this title was last modified.
+  DateTime get modified =>
+      files.map((f) => f.modified).reduce((a, b) => a.isAfter(b) ? a : b);
 }
 
 class _Group {
@@ -312,12 +318,13 @@ class Library extends ChangeNotifier {
         if (e is! File || !isVideoFile(e.path)) return;
         final name = p.basename(e.path);
         if (name.startsWith('.')) return; // macOS "._" resource forks etc.
-        pending.add(e.length().then((size) {
+        pending.add(e.stat().then((st) {
           // Skip sample clips that ship with releases.
           final lower = e.path.toLowerCase();
           final isSample = RegExp(r'(^|[^a-z])sample([^a-z]|$)').hasMatch(lower);
-          if (isSample && size < 400 * 1024 * 1024) return;
-          out.add(MediaFile(e.path, size, parseFileName(e.path), strict: strict));
+          if (isSample && st.size < 400 * 1024 * 1024) return;
+          out.add(MediaFile(e.path, st.size, st.modified, parseFileName(e.path),
+              strict: strict));
         }, onError: (_) {}));
       },
       onError: (_) {}, // unreadable sub-folders: skip them
@@ -357,6 +364,33 @@ class Library extends ChangeNotifier {
     }
     _changed();
     await store.saveLibrary();
+  }
+
+  // ---- Deleting ----
+
+  /// Moves files to the Trash and drops them from the library.
+  /// Returns the files that couldn't be moved, with the reason.
+  Future<Map<String, String>> trashFiles(List<MediaFile> files) async {
+    final failed = <String, String>{};
+    final trashed = <String>{};
+    for (final f in files) {
+      try {
+        await PlatformAccess.trash(f.path);
+        trashed.add(f.path);
+      } on PlatformException catch (e) {
+        failed[f.path] = e.message ?? e.code;
+      } catch (e) {
+        failed[f.path] = '$e';
+      }
+    }
+    if (trashed.isNotEmpty) {
+      for (final g in _groups.values) {
+        g.files.removeWhere((f) => trashed.contains(f.path));
+      }
+      _groups.removeWhere((_, g) => g.files.isEmpty);
+      _changed();
+    }
+    return failed;
   }
 
   // ---- Settings ----

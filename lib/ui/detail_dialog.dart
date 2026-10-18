@@ -99,7 +99,7 @@ class DetailDialog extends StatelessWidget {
           ],
         ],
         Text(item.files.length == 1 ? 'File' : 'Files (${item.files.length})', style: t.labelLarge),
-        for (final f in item.files) _FileTile(file: f),
+        ..._fileList(context, item),
         const SizedBox(height: 16),
         Wrap(spacing: 8, runSpacing: 8, children: [
           if (info?.webUrl case final url?)
@@ -113,6 +113,20 @@ class DetailDialog extends StatelessWidget {
                 context: context, builder: (_) => FixMatchDialog(library: library, item: item)),
             icon: const Icon(Icons.manage_search),
             label: Text(info == null ? 'Fix match' : 'Wrong title? Fix match'),
+          ),
+          OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(foregroundColor: c.error),
+            onPressed: () => _trash(
+              context,
+              item.files,
+              item.kind == MediaKind.series && item.files.length > 1
+                  ? 'all ${item.files.length} episodes of ${item.displayTitle}'
+                  : item.displayTitle,
+            ),
+            icon: const Icon(Icons.delete_outline),
+            label: Text(item.kind == MediaKind.series && item.files.length > 1
+                ? 'Delete all episodes'
+                : 'Delete'),
           ),
         ]),
       ],
@@ -144,11 +158,147 @@ class DetailDialog extends StatelessWidget {
       ),
     ]);
   }
+
+  /// Episodes are listed per season, each with its own delete button.
+  List<Widget> _fileList(BuildContext context, LibraryItem item) {
+    final bySeason = <int, List<MediaFile>>{};
+    if (item.kind == MediaKind.series) {
+      for (final f in item.files) {
+        if (f.parsed.season case final s?) (bySeason[s] ??= []).add(f);
+      }
+    }
+    Widget tile(MediaFile f) => _FileTile(
+          file: f,
+          onDelete: () => _trash(context, [f], p.basename(f.path)),
+        );
+    if (bySeason.length < 2) return [for (final f in item.files) tile(f)];
+
+    final t = Theme.of(context).textTheme;
+    final other = item.files.where((f) => f.parsed.season == null).toList();
+    return [
+      for (final MapEntry(key: season, value: files) in bySeason.entries) ...[
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Row(children: [
+            Expanded(
+              child: Text(
+                'Season $season · ${files.length} ${files.length == 1 ? 'episode' : 'episodes'}',
+                style: t.titleSmall,
+              ),
+            ),
+            TextButton.icon(
+              style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.error),
+              onPressed: () => _trash(context, files, 'season $season of ${item.displayTitle}'),
+              icon: const Icon(Icons.delete_outline, size: 18),
+              label: const Text('Delete season'),
+            ),
+          ]),
+        ),
+        for (final f in files) tile(f),
+      ],
+      if (other.isNotEmpty) ...[
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Text('Other', style: t.titleSmall),
+        ),
+        for (final f in other) tile(f),
+      ],
+    ];
+  }
+
+  /// Asks for confirmation, then moves [files] to the Trash.
+  Future<void> _trash(BuildContext context, List<MediaFile> files, String what) async {
+    final trash = PlatformAccess.trashName;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (context) => _ConfirmTrashDialog(files: files, what: what),
+    );
+    if (ok != true || !context.mounted) return;
+
+    final failed = await library.trashFiles(files);
+    if (!context.mounted) return;
+    if (failed.isNotEmpty) {
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(failed.length == 1
+              ? "Couldn't move the file to the $trash"
+              : "Couldn't move ${failed.length} files to the $trash"),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final e in failed.entries)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text('${p.basename(e.key)}: ${e.value}'),
+                  ),
+                if (PlatformAccess.sandboxed)
+                  const Text('If MovieCat lacks permission, remove the folder from the '
+                      'library and add it again to allow moving files to the Trash.'),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),
+          ],
+        ),
+      );
+    }
+    // Close the details when nothing of this title is left.
+    if (context.mounted && !library.items.any((i) => i.keys.any(item.keys.contains))) {
+      Navigator.pop(context);
+    }
+  }
+}
+
+class _ConfirmTrashDialog extends StatelessWidget {
+  final List<MediaFile> files;
+  final String what;
+  const _ConfirmTrashDialog({required this.files, required this.what});
+
+  @override
+  Widget build(BuildContext context) {
+    final c = Theme.of(context).colorScheme;
+    final trash = PlatformAccess.trashName;
+    final total = files.fold<int>(0, (sum, f) => sum + f.size);
+    const shown = 8;
+    return AlertDialog(
+      icon: Icon(Icons.delete_outline, color: c.error),
+      title: Text('Move $what to the $trash?'),
+      content: SizedBox(
+        width: 480,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(files.length == 1
+                ? 'This file (${formatSize(total)}) will be moved to the $trash:'
+                : 'These ${files.length} files (${formatSize(total)}) will be moved to the $trash:'),
+            const SizedBox(height: 8),
+            for (final f in files.take(shown))
+              Text('• ${p.basename(f.path)}', maxLines: 1, overflow: TextOverflow.ellipsis),
+            if (files.length > shown) Text('…and ${files.length - shown} more'),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+        FilledButton(
+          style: FilledButton.styleFrom(backgroundColor: c.error, foregroundColor: c.onError),
+          onPressed: () => Navigator.pop(context, true),
+          child: Text('Move to $trash'),
+        ),
+      ],
+    );
+  }
 }
 
 class _FileTile extends StatelessWidget {
   final MediaFile file;
-  const _FileTile({required this.file});
+  final VoidCallback onDelete;
+  const _FileTile({required this.file, required this.onDelete});
 
   Future<void> _reveal() async {
     if (Platform.isMacOS) {
@@ -183,6 +333,11 @@ class _FileTile extends StatelessWidget {
           tooltip: 'Show in folder',
           icon: const Icon(Icons.folder_open_outlined),
           onPressed: _reveal,
+        ),
+        IconButton(
+          tooltip: 'Move to ${PlatformAccess.trashName}',
+          icon: const Icon(Icons.delete_outline),
+          onPressed: onDelete,
         ),
       ]),
     );
