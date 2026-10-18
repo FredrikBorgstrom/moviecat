@@ -9,7 +9,7 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/FredrikBorgstrom/moviecat/releases/download/v1.1.0/MovieCat-windows-x64.zip",
-            "hash": "TBD"
+            "hash": "c4e3cebdb572bb4deb654ae48007b91034519242f937e9a676f61a8045bd1e7c"
         }
     },
     "shortcuts": [

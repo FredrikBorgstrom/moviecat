@@ -10,6 +10,7 @@ AppId={{6E2B5C1A-3F47-4D8B-9A1E-7C0D4F2B8A61}
 AppName=MovieCat
 AppVersion={#AppVersion}
 AppVerName=MovieCat {#AppVersion}
+UninstallDisplayName=MovieCat
 AppPublisher=AB Cx3
 AppPublisherURL=https://moviecat.org
 AppSupportURL=https://github.com/FredrikBorgstrom/moviecat/issues
