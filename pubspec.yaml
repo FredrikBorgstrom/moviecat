@@ -51,6 +51,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  msix: ^3.18.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -96,3 +97,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# Microsoft Store package (MSIX). Built in CI with `dart run msix:create --store`;
+# the Store identity (identity name and publisher) comes from Partner Center and
+# is passed in as GitHub repository variables, see .github/workflows/build.yml.
+msix_config:
+  display_name: MovieCat
+  publisher_display_name: AB Cx3
+  logo_path: assets/images/app_icon.png
+  capabilities: internetClient
+  languages: en-us
+  store: true

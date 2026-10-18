@@ -73,6 +73,17 @@ jobs:
           iscc /DAppVersion=$version windows\installer\moviecat.iss
           Move-Item build\installer\MovieCat-windows-x64-setup.exe .
 
+      # Microsoft Store package. Runs once the Store identity from Partner Center
+      # is set as repository variables MSIX_IDENTITY_NAME and MSIX_PUBLISHER.
+      - name: MSIX for the Microsoft Store (Windows)
+        if: matrix.target == 'windows' && vars.MSIX_IDENTITY_NAME != ''
+        shell: pwsh
+        run: |
+          $version = (Select-String -Path pubspec.yaml -Pattern '^version: ([0-9.]+)').Matches[0].Groups[1].Value
+          dart run msix:create --store --build-windows false --version "$version.0" `
+            --identity-name "${{ vars.MSIX_IDENTITY_NAME }}" --publisher "${{ vars.MSIX_PUBLISHER }}" `
+            --output-path . --output-name MovieCat-windows-x64-store
+
       - name: Package (Linux)
         if: matrix.target == 'linux'
         run: tar -czf ${{ matrix.artifact }} -C build/linux/x64/release/bundle .
@@ -103,6 +114,7 @@ jobs:
           path: |
             ${{ matrix.artifact }}
             MovieCat-windows-x64-setup.exe
+            MovieCat-windows-x64-store.msix
             MovieCat-x86_64.AppImage
           if-no-files-found: ignore
 
