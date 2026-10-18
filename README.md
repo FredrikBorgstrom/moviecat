@@ -47,8 +47,18 @@ The key is stored only on your computer, in the app's data folder (shown in Sett
 Download the latest version (older versions are on the [releases page](https://github.com/FredrikBorgstrom/moviecat/releases)):
 
 - **macOS**: [MovieCat-macos.zip](https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-macos.zip). The app is not signed, so the first time right-click it → **Open**, or run `xattr -cr MovieCat.app`.
-- **Windows**: [MovieCat-windows-x64.zip](https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-windows-x64.zip), unzip and run `moviecat.exe`.
-- **Linux**: [MovieCat-linux-x64.tar.gz](https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-linux-x64.tar.gz), extract and run `./moviecat` (needs GTK 3).
+- **Windows**: [MovieCat-windows-x64-setup.exe](https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-windows-x64-setup.exe) (installer), or [MovieCat-windows-x64.zip](https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-windows-x64.zip): unzip and run `moviecat.exe`.
+- **Linux**: [MovieCat-x86_64.AppImage](https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-x86_64.AppImage) (`chmod +x` and run), or [MovieCat-linux-x64.tar.gz](https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-linux-x64.tar.gz): extract and run `./moviecat` (needs GTK 3).
+
+With a package manager:
+
+```bash
+brew install --cask fredrikborgstrom/tap/moviecat          # macOS, Homebrew
+scoop bucket add moviecat https://github.com/FredrikBorgstrom/moviecat
+scoop install moviecat                                      # Windows, Scoop
+```
+
+The Homebrew cask lives in [FredrikBorgstrom/homebrew-tap](https://github.com/FredrikBorgstrom/homebrew-tap); the Scoop manifest is [bucket/moviecat.json](bucket/moviecat.json). Release builds (zip, installer, AppImage) are made by [.github/workflows/build.yml](.github/workflows/build.yml) when a `v*` tag is pushed.
 
 ## Mac App Store
 

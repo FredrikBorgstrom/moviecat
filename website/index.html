@@ -123,17 +123,22 @@
         <a class="dl" data-os="mac" href="https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-macos.zip">
           <strong>macOS</strong><span>MovieCat-macos.zip</span>
         </a>
-        <a class="dl" data-os="win" href="https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-windows-x64.zip">
-          <strong>Windows</strong><span>MovieCat-windows-x64.zip</span>
+        <a class="dl" data-os="win" href="https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-windows-x64-setup.exe">
+          <strong>Windows</strong><span>MovieCat-windows-x64-setup.exe</span>
         </a>
-        <a class="dl" data-os="linux" href="https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-linux-x64.tar.gz">
-          <strong>Linux</strong><span>MovieCat-linux-x64.tar.gz</span>
+        <a class="dl" data-os="linux" href="https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-x86_64.AppImage">
+          <strong>Linux</strong><span>MovieCat-x86_64.AppImage</span>
         </a>
       </div>
       <ul class="dl-notes">
         <li><b>macOS:</b> the download isn't signed, so the first time, right-click MovieCat → <b>Open</b>. A Mac App Store version is on its way.</li>
-        <li><b>Windows:</b> unzip and run <code>moviecat.exe</code>.</li>
-        <li><b>Linux:</b> extract and run <code>./moviecat</code> (needs GTK 3).</li>
+        <li><b>Windows:</b> run the installer. Windows may warn about an unknown publisher: click <b>More info → Run anyway</b>. Prefer no installer? Get the <a href="https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-windows-x64.zip">zip</a>.</li>
+        <li><b>Linux:</b> make the AppImage executable (<code>chmod +x MovieCat-x86_64.AppImage</code>) and run it, or get the <a href="https://github.com/FredrikBorgstrom/moviecat/releases/latest/download/MovieCat-linux-x64.tar.gz">tar.gz</a> (needs GTK 3).</li>
+      </ul>
+      <h3>Or use a package manager</h3>
+      <ul class="dl-notes">
+        <li><b>Homebrew (macOS):</b> <code>brew install --cask fredrikborgstrom/tap/moviecat</code></li>
+        <li><b>Scoop (Windows):</b> <code>scoop bucket add moviecat https://github.com/FredrikBorgstrom/moviecat</code>, then <code>scoop install moviecat</code></li>
       </ul>
       <p class="sub">Older versions are on the <a href="https://github.com/FredrikBorgstrom/moviecat/releases">releases page</a>.</p>
     </div>
@@ -158,6 +163,7 @@
   <div class="wrap foot">
     <span>© 2026 AB Cx3</span>
     <a href="/privacy">Privacy</a>
+    <a href="/press">Press</a>
     <a href="https://github.com/FredrikBorgstrom/moviecat/issues">Support</a>
     <a href="https://github.com/FredrikBorgstrom/moviecat">Source code</a>
   </div>
