@@ -6,6 +6,12 @@ on:
     tags: ['v*']
   pull_request:
   workflow_dispatch:
+    inputs:
+      stores:
+        description: Stores to publish to
+        type: choice
+        options: [all, chocolatey]
+        default: all
 
 permissions:
   contents: write
@@ -174,7 +180,7 @@ jobs:
           name: moviecat-snap
           path: ${{ steps.snap.outputs.snap }}
       - uses: snapcore/action-publish@v1
-        if: (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch') && env.SNAPCRAFT_STORE_CREDENTIALS != ''
+        if: (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch') && inputs.stores != 'chocolatey' && env.SNAPCRAFT_STORE_CREDENTIALS != ''
         with:
           snap: ${{ steps.snap.outputs.snap }}
           release: stable
@@ -183,7 +189,7 @@ jobs:
   # secret is set. Uses the release assets, so it runs after the build jobs.
   aur:
     needs: build
-    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    if: (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch') && inputs.stores != 'chocolatey'
     runs-on: ubuntu-latest
     env:
       AUR_SSH_PRIVATE_KEY: ${{ secrets.AUR_SSH_PRIVATE_KEY }}

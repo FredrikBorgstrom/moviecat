@@ -8,7 +8,7 @@
     <authors>AB Cx3</authors>
     <owners>FredrikBorgstrom</owners>
     <projectUrl>https://moviecat.org</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/FredrikBorgstrom/moviecat/main/linux/packaging/io.github.fredrikborgstrom.moviecat.png</iconUrl>
+    <iconUrl>https://cdn.jsdelivr.net/gh/FredrikBorgstrom/moviecat@dd0f5f577838cbfdf332b659df8e150d3c8e48de/linux/packaging/io.github.fredrikborgstrom.moviecat.png</iconUrl>
     <licenseUrl>https://github.com/FredrikBorgstrom/moviecat/blob/main/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <projectSourceUrl>https://github.com/FredrikBorgstrom/moviecat</projectSourceUrl>
