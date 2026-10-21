@@ -111,6 +111,13 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 36px; font-size: .9r
 footer a { color: var(--muted); }
 .credits { font-size: .8rem; opacity: .75; margin-top: 12px; }
 
+/* Analytics consent */
+#consent { position: fixed; z-index: 20; left: 16px; right: 16px; bottom: 16px; max-width: 560px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 16px 20px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 16px 48px rgba(0, 0, 0, .5); font-size: .92rem; }
+#consent p { flex: 1 1 260px; margin: 0; color: var(--muted); }
+.consent-buttons { display: flex; gap: 10px; }
+#consent button { font: inherit; font-weight: 600; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--text); cursor: pointer; }
+#consent button.yes { background: var(--accent); border-color: var(--accent); color: #fff; }
+
 /* Text pages (privacy) */
 .page { max-width: 760px; padding-top: 56px; padding-bottom: 72px; }
 .page h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); }
