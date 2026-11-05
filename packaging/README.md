@@ -32,11 +32,29 @@ Note: the snap is confined. It can read your home folder and drives under `/medi
 
 ### AUR
 
+As of 18 October 2026, new AUR account registrations are temporarily closed.
+Existing accounts can still sign in and publish. Follow the
+[Arch news feed](https://archlinux.org/news/) for reopening announcements.
+
 1. Sign up at <https://aur.archlinux.org/register>.
-2. Under **My Account → SSH Public Key**, paste the public key Claude made for this (`~/.ssh/aur_moviecat.pub`) and save.
-3. Tell Claude. It adds the private key as the `AUR_SSH_PRIVATE_KEY` secret and publishes `moviecat-bin`.
+2. Under **My Account → SSH Public Key**, paste the existing MovieCat public key (`~/.ssh/aur_moviecat.pub`) and save.
+3. Verify that the account accepts this key before adding its private key to the
+   `FredrikBorgstrom/moviecat` repository's `AUR_SSH_PRIVATE_KEY` secret and
+   publishing `moviecat-bin`. The public key goes in the AUR account; the private
+   key goes only in the repository secret.
+
+The recipe fixes Flutter plugin library paths while packaging the release bundle,
+so the plugins find the bundled runtime beside them instead of a build-machine
+directory. The bundle is installed under `/usr/lib/moviecat`, with a launcher in
+`/usr/bin`. `patchelf` is a build dependency for this step.
 
 ### Chocolatey
+
+The `abcx3` Chocolatey account and the repository's `CHOCOLATEY_API_KEY`
+secret were configured on 18 October 2026. Version 1.1.0 was submitted using
+the existing Build workflow. Check the
+[package page](https://community.chocolatey.org/packages/moviecat/1.1.0) for
+moderation status.
 
 1. Sign up at <https://community.chocolatey.org/account/Register> and confirm the email.
 2. Copy your API key from <https://community.chocolatey.org/account>.

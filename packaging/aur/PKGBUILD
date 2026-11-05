@@ -7,6 +7,7 @@ arch=('x86_64')
 url="https://moviecat.org"
 license=('MIT')
 depends=('gtk3' 'glib2' 'cairo' 'gdk-pixbuf2' 'libepoxy' 'fontconfig' 'hicolor-icon-theme' 'gcc-libs' 'glibc')
+makedepends=('patchelf')
 provides=('moviecat')
 conflicts=('moviecat')
 options=('!strip' '!debug')
@@ -25,9 +26,15 @@ sha256sums=('12b7dafefc7efa635c0592b8eec42fcd0ca97e36712bec27a86f1166b756186c'
             '1b704035455cd0527d50d13eb5f7ee00efca8bcdc8478cdbdae815623ed7d767')
 
 package() {
-  install -d "$pkgdir/opt/moviecat" "$pkgdir/usr/bin"
-  bsdtar --no-same-owner -xf "MovieCat-linux-x64-$pkgver.tar.gz" -C "$pkgdir/opt/moviecat"
-  ln -s /opt/moviecat/moviecat "$pkgdir/usr/bin/moviecat"
+  install -d "$pkgdir/usr/lib/moviecat" "$pkgdir/usr/bin"
+  bsdtar --no-same-owner -xf "MovieCat-linux-x64-$pkgver.tar.gz" -C "$pkgdir/usr/lib/moviecat"
+  # Flutter copies plugin libraries with their build-tree RUNPATH intact.
+  # Resolve the bundled Flutter runtime beside each installed plugin instead.
+  for plugin in "$pkgdir/usr/lib/moviecat/lib"/lib*_plugin.so; do
+    [[ -f "$plugin" ]] || continue
+    patchelf --set-rpath '$ORIGIN' "$plugin"
+  done
+  ln -s /usr/lib/moviecat/moviecat "$pkgdir/usr/bin/moviecat"
   install -Dm644 "$_id-$pkgver.desktop" "$pkgdir/usr/share/applications/$_id.desktop"
   install -Dm644 "$_id-$pkgver.metainfo.xml" "$pkgdir/usr/share/metainfo/$_id.metainfo.xml"
   install -Dm644 "$_id-$pkgver.png" "$pkgdir/usr/share/icons/hicolor/256x256/apps/$_id.png"
