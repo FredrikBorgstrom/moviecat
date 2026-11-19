@@ -10,11 +10,18 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#151312">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="MovieCat">
 <meta property="og:url" content="https://moviecat.org/">
 <meta property="og:title" content="MovieCat – your movie &amp; TV file library">
 <meta property="og:description" content="Point MovieCat at your movie folders and see posters, ratings and summaries for every film and show. No account or API key needed.">
 <meta property="og:image" content="https://moviecat.org/img/og.jpg">
+<meta property="og:image:secure_url" content="https://moviecat.org/img/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="750">
+<meta property="og:image:alt" content="MovieCat library view: a grid of movie posters with ratings">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://moviecat.org/img/og.jpg">
 <link rel="stylesheet" href="/style.css">
 <script src="/analytics.js" defer></script>
 </head>
@@ -74,13 +81,30 @@
         </article>
         <article>
           <h3>Rate, search, sort</h3>
-          <p>Give titles your own 1–10 rating, filter by movies or TV, and sort by title, year, rating or date modified.</p>
+          <p>Give titles your own 1–10 rating, filter by movies, TV or woke rating, and sort by title, year, rating or date modified.</p>
         </article>
         <article>
           <h3>Fix a match in seconds</h3>
           <p>If a title is wrong, search and pick the right one. MovieCat remembers your choice.</p>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section class="woke">
+    <div class="wrap split">
+      <div>
+        <h2>Know what you're in for</h2>
+        <p>MovieCat shows woke ratings from our sister site <a href="https://wokewarn.com/?utm_source=moviecat&amp;utm_medium=partner&amp;utm_campaign=moviecat_website">WokeWarn</a>: how prominent progressive messaging is in a film or show, from 0 to 10. Titles WokeWarn has reviewed get their rating on the poster, and the details add a spoiler-free verdict and a link to the full review.</p>
+        <p>Filter your library by rating band, or sort it from least to most woke.</p>
+      </div>
+      <ul class="examples bands" aria-label="WokeWarn rating bands">
+        <li style="--band:#4cb782"><code>0–1</code><span>None or negligible</span></li>
+        <li style="--band:#a6c64b"><code>1.5–3</code><span>Mild</span></li>
+        <li style="--band:#f2c230"><code>3.5–5</code><span>Moderate</span></li>
+        <li style="--band:#f08a2c"><code>5.5–7.5</code><span>Strong</span></li>
+        <li style="--band:#e5484d"><code>8–10</code><span>Pervasive</span></li>
+      </ul>
     </div>
   </section>
 
@@ -112,7 +136,7 @@
   <section class="privacy-band">
     <div class="wrap">
       <h2>Private by design</h2>
-      <p>No accounts, no analytics, no tracking. Your library stays on your computer; only the titles read from file names are sent to public movie databases to look them up. <a href="/privacy">Read the privacy policy</a>.</p>
+      <p>No accounts, no analytics, no tracking. Your library stays on your computer; only the titles read from file names are sent to public movie databases to look them up, and the ids of recognised titles to WokeWarn for their ratings. <a href="/privacy">Read the privacy policy</a>.</p>
     </div>
   </section>
 

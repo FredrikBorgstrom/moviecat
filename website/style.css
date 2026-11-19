@@ -82,6 +82,7 @@ figure { margin: 0; }
 .examples code { color: var(--muted); overflow-wrap: anywhere; }
 .examples span { font-weight: 600; white-space: nowrap; }
 .examples span::before { content: "→ "; color: var(--accent); }
+.bands span::before { content: "▲ "; color: var(--band); }
 
 /* Gallery */
 .gallery { padding-top: 0; }
