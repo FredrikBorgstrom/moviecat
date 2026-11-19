@@ -13,7 +13,7 @@ import 'platform_access.dart';
 import 'providers/keyless.dart';
 import 'providers/tmdb.dart';
 import 'store.dart';
-import 'wokewarn.dart';
+import 'wokegauge.dart';
 
 enum ItemStatus { pending, matched, unmatched, error }
 
@@ -85,9 +85,9 @@ class Library extends ChangeNotifier {
 
   int? myRating(String id) => store.myRatings[id];
 
-  /// The WokeWarn rating of a title, if WokeWarn has reviewed it.
+  /// The WokeGauge rating of a title, if WokeGauge has reviewed it.
   WokeRating? wokeRating(MediaInfo? info) =>
-      WokeWarn.enabled && info != null ? store.wokeRatings[info.id] : null;
+      WokeGauge.enabled && info != null ? store.wokeRatings[info.id] : null;
 
   /// All titles, with groups that matched the same title merged together.
   List<LibraryItem> get items => _items ??= _buildItems();
@@ -292,18 +292,18 @@ class Library extends ChangeNotifier {
     unawaited(refreshWokeRatings());
   }
 
-  /// Fetches WokeWarn ratings for every identified title in the library. If WokeWarn
+  /// Fetches WokeGauge ratings for every identified title in the library. If WokeGauge
   /// can't be reached, the ratings from last time stay.
   Future<void> refreshWokeRatings() async {
-    if (!WokeWarn.enabled) return;
+    if (!WokeGauge.enabled) return;
     final ids = {for (final i in items) ?i.info?.id}.toList();
     try {
-      final ratings = await WokeWarn.lookup(ids);
+      final ratings = await WokeGauge.lookup(ids);
       store.wokeRatings
         ..clear()
         ..addAll(ratings);
     } catch (e) {
-      debugPrint('WokeWarn: $e');
+      debugPrint('WokeGauge: $e');
       return;
     }
     await store.saveLibrary();

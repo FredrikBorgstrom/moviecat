@@ -1,5 +1,5 @@
-// Needs a WokeWarn key: flutter test --dart-define=WOKEWARN_KEY=test --dart-define=WOKEWARN_URL=http://localhost:9
-// Without one (as in CI) WokeWarn is left out of the app and these tests are skipped.
+// Needs a WokeGauge key: flutter test --dart-define=WOKEGAUGE_KEY=test --dart-define=WOKEGAUGE_URL=http://localhost:9
+// Without one (as in CI) WokeGauge is left out of the app and these tests are skipped.
 import 'dart:io';
 
 import 'package:material_ui/material_ui.dart';
@@ -8,12 +8,12 @@ import 'package:moviecat/core/filename_parser.dart';
 import 'package:moviecat/core/library.dart';
 import 'package:moviecat/core/models.dart';
 import 'package:moviecat/core/store.dart';
-import 'package:moviecat/core/wokewarn.dart';
+import 'package:moviecat/core/wokegauge.dart';
 import 'package:moviecat/ui/brand.dart';
 import 'package:moviecat/ui/library_page.dart';
 import 'package:moviecat/ui/widgets.dart';
 
-/// A library of three identified movies, two of them reviewed by WokeWarn.
+/// A library of three identified movies, two of them reviewed by WokeGauge.
 Future<Library> _library(WidgetTester tester) async {
   late Library lib;
   await tester.runAsync(() async {
@@ -50,9 +50,9 @@ double _x(String title) => find.text(title).evaluate().isEmpty
         .dx;
 
 void main() {
-  final skip = !WokeWarn.enabled;
+  final skip = !WokeGauge.enabled;
 
-  testWidgets('shows WokeWarn badges, filters by band and sorts by rating', (tester) async {
+  testWidgets('shows WokeGauge badges, filters by band and sorts by rating', (tester) async {
     final lib = await _library(tester);
     await tester.binding.setSurfaceSize(const Size(1100, 900));
     addTearDown(() => tester.binding.setSurfaceSize(null));

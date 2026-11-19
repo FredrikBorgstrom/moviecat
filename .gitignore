@@ -54,7 +54,7 @@ appstore/asc.local.json
 # Cloudflare Wrangler cache
 .wrangler/
 
-# WokeWarn API key for release builds (see README)
-wokewarn.env
+# WokeGauge API key for release builds (see README)
+wokegauge.env
 # Ed25519 key that signs the update feed (also the UPDATE_SIGNING_KEY secret)
 update-signing-key.pem

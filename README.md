@@ -17,7 +17,7 @@ A desktop app for **macOS, Windows and Linux** that scans your folders for movie
   - `[SubsPlease] Frieren - 05 (1080p).mkv` → anime-style episodes
   - Foreign titles: `Det.Sjunde.Inseglet.1957.mkv` → *The Seventh Seal*
 - Poster grid with IMDb rating, filter (Movies / TV / Unrecognised), search and sort.
-- **Woke rating** from [WokeWarn](https://wokewarn.com) on the posters and in the detail view, with a filter by rating band and sorting by it (release builds only, see below).
+- **Woke rating** from [WokeGauge](https://wokegauge.com) on the posters and in the detail view, with a filter by rating band and sorting by it (release builds only, see below).
 - **Automatic updates** for direct downloads (and Homebrew): a new version downloads in the background, is checked against MovieCat's signed update feed, and installs with **Restart to update**. Settings has the on/off switch and **Check for updates**. Copies from the Mac App Store, Microsoft Store, Snap, Scoop, Chocolatey and the AUR are updated by their store; the Windows zip and the Linux tar.gz only show that a new version is out.
 - Detail view with summary, genres, runtime, your own 1–10 rating, the files (play or show in folder) and a link to IMDb.
 - **Fix match**: if a title is wrong or unrecognised, search and pick the right one. Your choice is remembered.
@@ -31,7 +31,7 @@ A desktop app for **macOS, Windows and Linux** that scans your folders for movie
 | [Cinemeta](https://v3-cinemeta.strem.io) (Stremio's open metadata API) | IMDb rating, plot, genres, runtime | No |
 | [TVmaze](https://www.tvmaze.com/api) | Fallback for TV show info | No |
 | [TMDB](https://www.themoviedb.org) | Optional: better matching of foreign / obscure titles | Free key |
-| [WokeWarn](https://wokewarn.com) | Woke rating (0–10) of the titles it has reviewed | Built into release builds |
+| [WokeGauge](https://wokegauge.com) | Woke rating (0–10) of the titles it has reviewed | Built into release builds |
 
 TheTVDB was left out on purpose: it now requires a paid subscription or project key, while TVmaze and TMDB cover the same ground for free.
 
@@ -82,13 +82,13 @@ flutter run -d macos      # or: windows, linux
 flutter build macos       # release build
 ```
 
-WokeWarn ratings need a key that is not in this repository: WokeWarn's API only answers requests signed with it, so other apps can't use it. Builds without the key leave WokeWarn out. CI passes it from the `WOKEWARN_KEY` repository secret; locally it lives in the git-ignored `wokewarn.env` (`WOKEWARN_KEY=…`), which `appstore/build.sh` requires:
+WokeGauge ratings need a key that is not in this repository: WokeGauge's API only answers requests signed with it, so other apps can't use it. Builds without the key leave WokeGauge out. CI passes it from the `WOKEWARN_KEY` repository secret (named before WokeWarn became WokeGauge); locally it lives in the git-ignored `wokegauge.env` (`WOKEGAUGE_KEY=…`), which `appstore/build.sh` requires:
 
 ```bash
-flutter run -d macos --dart-define-from-file=wokewarn.env
+flutter run -d macos --dart-define-from-file=wokegauge.env
 ```
 
-Add `--dart-define=WOKEWARN_URL=http://localhost:8787` to use a local `npx wrangler dev` of wokewarn.com instead of the live site.
+Add `--dart-define=WOKEGAUGE_URL=http://localhost:8787` to use a local `npx wrangler dev` of wokegauge.com instead of the live site.
 
 ### Update feed
 

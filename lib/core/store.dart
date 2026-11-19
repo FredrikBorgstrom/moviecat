@@ -5,7 +5,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'models.dart';
-import 'wokewarn.dart';
+import 'wokegauge.dart';
 
 /// Settings and caches, stored as JSON files in the app support directory.
 class Store {
@@ -39,7 +39,7 @@ class Store {
   /// The user's own ratings (1–10) keyed by MediaInfo.id.
   final Map<String, int> myRatings = {};
 
-  /// WokeWarn ratings keyed by MediaInfo.id (only titles WokeWarn has reviewed).
+  /// WokeGauge ratings keyed by MediaInfo.id (only titles WokeGauge has reviewed).
   final Map<String, WokeRating> wokeRatings = {};
 
   static Future<Store> open() async {

@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
-import '../core/wokewarn.dart';
+import '../core/wokegauge.dart';
 import 'brand.dart';
 
 /// Poster image with a tidy placeholder while loading or when missing.
@@ -69,7 +69,7 @@ class RatingBadge extends StatelessWidget {
   }
 }
 
-/// The colours of WokeWarn's rating bands (as on wokewarn.com).
+/// The colours of WokeGauge's rating bands (as on wokegauge.com).
 Color wokeColor(String band) => switch (band) {
       'none' => const Color(0xFF4CB782),
       'mild' => const Color(0xFFA6C64B),
@@ -78,7 +78,7 @@ Color wokeColor(String band) => switch (band) {
       _ => const Color(0xFFE5484D),
     };
 
-/// A small "⚠ 2.5" pill with the WokeWarn rating, coloured by band.
+/// A small gauge "2.5" pill with the WokeGauge rating, coloured by band.
 class WokeBadge extends StatelessWidget {
   final WokeRating woke;
   const WokeBadge({super.key, required this.woke});
@@ -86,7 +86,7 @@ class WokeBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: 'WokeWarn: ${woke.bandLabel} (${woke.rating.toStringAsFixed(1)}/10)',
+      message: 'WokeGauge: ${woke.bandLabel} (${woke.rating.toStringAsFixed(1)}/10)',
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
         decoration: BoxDecoration(
@@ -94,7 +94,7 @@ class WokeBadge extends StatelessWidget {
           borderRadius: BorderRadius.circular(6),
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
-          Icon(Icons.warning_rounded, size: 15, color: wokeColor(woke.band)),
+          Icon(Icons.speed_rounded, size: 15, color: wokeColor(woke.band)),
           const SizedBox(width: 3),
           Text(
             woke.rating.toStringAsFixed(1),

@@ -23,7 +23,7 @@ To recognise a title, MovieCat sends the title (and year) it reads from a file n
 - TVmaze (tvmaze.com)
 - TMDB (themoviedb.org), only if you add your own TMDB API key
 
-To show woke ratings, MovieCat sends the IMDb ids (or TMDB ids) of the titles it has recognised to WokeWarn (wokewarn.com), which answers with the ratings of those it has reviewed. WokeWarn does not store the ids.
+To show woke ratings, MovieCat sends the IMDb ids (or TMDB ids) of the titles it has recognised to WokeGauge (wokegauge.com), which answers with the ratings of those it has reviewed. WokeGauge does not store the ids.
 
 Copies downloaded from GitHub or moviecat.org check GitHub (github.com) for a new version a few seconds after launch and every six hours, and download it from there. The Mac App Store version and copies installed with a package manager (Homebrew excepted) leave updates to their store.
 

@@ -8,7 +8,7 @@ import '../core/filename_parser.dart';
 import '../core/library.dart';
 import '../core/models.dart';
 import '../core/platform_access.dart';
-import '../core/wokewarn.dart';
+import '../core/wokegauge.dart';
 import 'widgets.dart';
 
 class DetailDialog extends StatelessWidget {
@@ -258,7 +258,7 @@ class DetailDialog extends StatelessWidget {
   }
 }
 
-/// The WokeWarn rating, its spoiler-free verdict and a link to the full review.
+/// The WokeGauge rating, its spoiler-free verdict and a link to the full review.
 class _WokeSection extends StatelessWidget {
   final WokeRating woke;
   const _WokeSection({required this.woke});
@@ -283,7 +283,7 @@ class _WokeSection extends StatelessWidget {
         onPressed: () => launchUrl(Uri.parse(
             '${woke.url}?utm_source=moviecat&utm_medium=partner&utm_campaign=moviecat_app')),
         icon: const Icon(Icons.open_in_new, size: 18),
-        label: const Text('Read the review on WokeWarn'),
+        label: const Text('Read the review on WokeGauge'),
       ),
     ]);
   }

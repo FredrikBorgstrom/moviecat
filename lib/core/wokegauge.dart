@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'net.dart';
 
-/// A title's rating on wokewarn.com: how prominent progressive messaging is, 0–10.
+/// A title's rating on wokegauge.com: how prominent progressive messaging is, 0–10.
 class WokeRating {
   final double rating;
 
@@ -16,7 +16,7 @@ class WokeRating {
   /// Spoiler-free one-sentence verdict.
   final String verdict;
 
-  /// The review on wokewarn.com.
+  /// The review on wokegauge.com.
   final String url;
 
   const WokeRating({
@@ -44,7 +44,7 @@ class WokeRating {
       );
 }
 
-/// The rating bands of wokewarn.com, in order.
+/// The rating bands of wokegauge.com, in order.
 const wokeBands = [
   (id: 'none', label: 'None or negligible', range: '0–1'),
   (id: 'mild', label: 'Mild', range: '1.5–3'),
@@ -53,16 +53,16 @@ const wokeBands = [
   (id: 'pervasive', label: 'Pervasive', range: '8–10'),
 ];
 
-/// WokeWarn's private ratings API. Only MovieCat can use it: each request is signed
-/// with a key that release builds get at build time (`--dart-define-from-file=wokewarn.env`)
+/// WokeGauge's private ratings API. Only MovieCat can use it: each request is signed
+/// with a key that release builds get at build time (`--dart-define-from-file=wokegauge.env`)
 /// and that is not in the source code.
-class WokeWarn {
-  static const _key = String.fromEnvironment('WOKEWARN_KEY');
+class WokeGauge {
+  static const _key = String.fromEnvironment('WOKEGAUGE_KEY');
   static const _base =
-      String.fromEnvironment('WOKEWARN_URL', defaultValue: 'https://wokewarn.com');
+      String.fromEnvironment('WOKEGAUGE_URL', defaultValue: 'https://wokegauge.com');
   static const path = '/api/moviecat/v1/ratings';
 
-  /// Builds without the key, such as builds from source, leave WokeWarn out.
+  /// Builds without the key, such as builds from source, leave WokeGauge out.
   static bool get enabled => _key.isNotEmpty;
 
   /// HMAC-SHA256 of `POST <path>\n<unix time>\n<body>`, as the worker checks it.
@@ -70,7 +70,7 @@ class WokeWarn {
       Hmac(sha256, utf8.encode(key)).convert(utf8.encode('POST $path\n$time\n$body')).toString();
 
   /// Ratings for the given title ids (IMDb ids, or `tmdb:movie:603`-style ids).
-  /// Titles WokeWarn hasn't reviewed are left out.
+  /// Titles WokeGauge hasn't reviewed are left out.
   static Future<Map<String, WokeRating>> lookup(List<String> ids) async {
     if (!enabled || ids.isEmpty) return {};
     final body = jsonEncode({'ids': ids});

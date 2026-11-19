@@ -96,7 +96,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
               Text(
                 'Privacy: MovieCat has no account and collects no data. Only titles read from file names '
                 '(as search terms) are sent to the services above to identify titles, and the IDs of '
-                'recognised titles to WokeWarn for their woke ratings. Downloaded copies also check '
+                'recognised titles to WokeGauge for their woke ratings. Downloaded copies also check '
                 'GitHub for new versions.',
                 style: t.bodySmall,
               ),

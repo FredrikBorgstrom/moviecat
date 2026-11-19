@@ -7,7 +7,7 @@ import '../core/filename_parser.dart';
 import '../core/library.dart';
 import '../core/platform_access.dart';
 import '../core/updater.dart';
-import '../core/wokewarn.dart';
+import '../core/wokegauge.dart';
 import 'brand.dart';
 import 'detail_dialog.dart';
 import 'discovery_dialog.dart';
@@ -34,7 +34,7 @@ class _LibraryPageState extends State<LibraryPage> {
   _Sort _sort = _Sort.title;
   String _query = '';
 
-  /// WokeWarn bands to show ('unrated' for titles without a review); empty shows all.
+  /// WokeGauge bands to show ('unrated' for titles without a review); empty shows all.
   final Set<String> _woke = {};
 
   Library get lib => widget.library;
@@ -207,7 +207,7 @@ class _LibraryPageState extends State<LibraryPage> {
                             value: _Sort.myRating,
                             child: Text('My rating (highest)'),
                           ),
-                          if (WokeWarn.enabled) ...const [
+                          if (WokeGauge.enabled) ...const [
                             PopupMenuItem(
                               value: _Sort.wokeLeast,
                               child: Text('Woke rating (least woke)'),
@@ -233,7 +233,7 @@ class _LibraryPageState extends State<LibraryPage> {
                           ),
                         ),
                       ),
-                      if (WokeWarn.enabled) _wokeFilter(),
+                      if (WokeGauge.enabled) _wokeFilter(),
                       Text(
                         '${lib.items.length} titles',
                         style: TextStyle(color: c.onSurfaceVariant),
@@ -254,7 +254,7 @@ class _LibraryPageState extends State<LibraryPage> {
     );
   }
 
-  /// Shows titles by WokeWarn band; several bands can be ticked at once.
+  /// Shows titles by WokeGauge band; several bands can be ticked at once.
   Widget _wokeFilter() {
     String name(String id) => id == 'unrated'
         ? 'Not reviewed'
@@ -289,7 +289,7 @@ class _LibraryPageState extends State<LibraryPage> {
         ),
       ],
       builder: (context, menu, _) => ActionChip(
-        avatar: const Icon(Icons.warning_amber_rounded, size: 18),
+        avatar: const Icon(Icons.speed_rounded, size: 18),
         label: Text(
           'Woke: ${switch (_woke.length) {
             0 => 'Any',
