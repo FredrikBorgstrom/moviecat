@@ -18,6 +18,7 @@ A desktop app for **macOS, Windows and Linux** that scans your folders for movie
   - Foreign titles: `Det.Sjunde.Inseglet.1957.mkv` → *The Seventh Seal*
 - Poster grid with IMDb rating, filter (Movies / TV / Unrecognised), search and sort.
 - **Woke rating** from [WokeWarn](https://wokewarn.com) on the posters and in the detail view, with a filter by rating band and sorting by it (release builds only, see below).
+- **Automatic updates** for direct downloads (and Homebrew): a new version downloads in the background, is checked against MovieCat's signed update feed, and installs with **Restart to update**. Settings has the on/off switch and **Check for updates**. Copies from the Mac App Store, Microsoft Store, Snap, Scoop, Chocolatey and the AUR are updated by their store; the Windows zip and the Linux tar.gz only show that a new version is out.
 - Detail view with summary, genres, runtime, your own 1–10 rating, the files (play or show in folder) and a link to IMDb.
 - **Fix match**: if a title is wrong or unrecognised, search and pick the right one. Your choice is remembered.
 - Results are cached, so rescans are instant.
@@ -88,6 +89,10 @@ flutter run -d macos --dart-define-from-file=wokewarn.env
 ```
 
 Add `--dart-define=WOKEWARN_URL=http://localhost:8787` to use a local `npx wrangler dev` of wokewarn.com instead of the live site.
+
+### Update feed
+
+For each `v*` tag, CI attaches `update.json` (version, and the URL, size and SHA-256 of the macOS zip, Windows installer and AppImage) and `update.json.sig` to the release. The signature is Ed25519, made with the `UPDATE_SIGNING_KEY` repository secret; the app has the public key built in (`lib/core/updater.dart`) and installs only files listed in a correctly signed feed. The git-ignored `update-signing-key.pem` is the local copy of that key: keep a backup, because without it installed copies can't verify new versions. `--dart-define=MOVIECAT_UPDATE_FEED=…` points a build at another feed for testing.
 
 Run the tests:
 

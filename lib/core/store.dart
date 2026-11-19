@@ -22,6 +22,9 @@ class Store {
   /// macOS sandbox: security-scoped bookmarks (base64) for folders the user granted.
   Map<String, String> bookmarks = {};
   String tmdbKey = '';
+
+  /// Download and install new versions automatically (direct downloads only).
+  bool autoUpdate = true;
   bool setupDone = false;
 
   // Cache: parsed-name key -> identified title (null = looked up, nothing found).
@@ -62,6 +65,7 @@ class Store {
       strictFolders = ((j['strictFolders'] as List?) ?? []).cast<String>().toSet();
       bookmarks = ((j['bookmarks'] as Map?) ?? {}).cast<String, String>();
       tmdbKey = j['tmdbKey'] as String? ?? '';
+      autoUpdate = j['autoUpdate'] as bool? ?? true;
       setupDone = j['setupDone'] as bool? ?? false;
     } catch (_) {}
     try {
@@ -82,6 +86,7 @@ class Store {
         'strictFolders': strictFolders.toList(),
         'bookmarks': bookmarks,
         'tmdbKey': tmdbKey,
+        'autoUpdate': autoUpdate,
         'setupDone': setupDone,
       });
 

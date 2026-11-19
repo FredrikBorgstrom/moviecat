@@ -6,11 +6,13 @@ import 'package:path/path.dart' as p;
 import '../core/filename_parser.dart';
 import '../core/library.dart';
 import '../core/platform_access.dart';
+import '../core/updater.dart';
 import '../core/wokewarn.dart';
 import 'brand.dart';
 import 'detail_dialog.dart';
 import 'discovery_dialog.dart';
 import 'settings_dialog.dart';
+import 'update_banner.dart';
 import 'promo_banner.dart';
 import 'widgets.dart';
 
@@ -20,7 +22,8 @@ enum _Sort { title, year, modified, rating, myRating, wokeLeast, wokeMost }
 
 class LibraryPage extends StatefulWidget {
   final Library library;
-  const LibraryPage({super.key, required this.library});
+  final Updater? updater;
+  const LibraryPage({super.key, required this.library, this.updater});
 
   @override
   State<LibraryPage> createState() => _LibraryPageState();
@@ -116,6 +119,8 @@ class _LibraryPageState extends State<LibraryPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _toolbar(context),
+              if (widget.updater case final u?)
+                UpdateBanner(updater: u, library: lib),
               if (lib.store.folders.isNotEmpty) _folders(context),
               if (lib.scanning) _progress(context),
               Expanded(child: _body(context, items)),
@@ -367,7 +372,8 @@ class _LibraryPageState extends State<LibraryPage> {
           tooltip: 'Settings',
           onPressed: () => showDialog(
             context: context,
-            builder: (_) => SettingsDialog(library: lib),
+            builder: (_) =>
+                SettingsDialog(library: lib, updater: widget.updater),
           ),
           icon: const Icon(Icons.settings_outlined),
         ),

@@ -161,6 +161,44 @@ jobs:
             choco push "moviecat.$version.nupkg" --source https://push.chocolatey.org/ --api-key $env:CHOCOLATEY_API_KEY
           }
 
+  # Signed feed for MovieCat's built-in updater (lib/core/updater.dart): update.json
+  # lists each platform's download with its size and SHA-256, and update.json.sig is
+  # its Ed25519 signature made with the UPDATE_SIGNING_KEY secret. Apps fetch it from
+  # releases/latest/download/update.json.
+  update-feed:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      UPDATE_SIGNING_KEY: ${{ secrets.UPDATE_SIGNING_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Write, sign and attach update.json
+        if: env.UPDATE_SIGNING_KEY != ''
+        run: |
+          tag="$GITHUB_REF_NAME"
+          mkdir feed
+          gh release download "$tag" -D feed -p MovieCat-macos.zip -p MovieCat-windows-x64-setup.exe -p MovieCat-x86_64.AppImage
+          python3 - "$tag" <<'PY'
+          import hashlib, json, os, sys
+          tag = sys.argv[1]
+          repo = os.environ['GITHUB_REPOSITORY']
+          files = {'macos': 'MovieCat-macos.zip', 'windows': 'MovieCat-windows-x64-setup.exe', 'linux': 'MovieCat-x86_64.AppImage'}
+          def asset(name):
+              data = open(f'feed/{name}', 'rb').read()
+              return {'name': name, 'url': f'https://github.com/{repo}/releases/download/{tag}/{name}',
+                      'sha256': hashlib.sha256(data).hexdigest(), 'size': len(data)}
+          feed = {'version': tag[1:], 'notes': json.load(open('appstore/metadata.json')).get('whatsNew', ''),
+                  'page': f'https://github.com/{repo}/releases/tag/{tag}',
+                  'assets': {k: asset(v) for k, v in files.items()}}
+          json.dump(feed, open('update.json', 'w'), indent=1)
+          PY
+          printf '%s\n' "$UPDATE_SIGNING_KEY" > key.pem
+          openssl pkeyutl -sign -rawin -inkey key.pem -in update.json -out update.json.sig
+          rm key.pem
+          gh release upload "$tag" update.json update.json.sig --clobber
+
   # Snap Store package from the Linux bundle. Published to the stable channel for
   # v* tags once the SNAPCRAFT_STORE_CREDENTIALS secret is set.
   snap:

@@ -42,6 +42,8 @@ dependencies:
   flutter_svg: ^2.3.0
   crypto: ^3.0.8
   material_ui: ^1.11.1
+  package_info_plus: ^10.2.2
+  cryptography: ^2.9.0
 
 dev_dependencies:
   flutter_test:
