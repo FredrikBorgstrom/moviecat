@@ -146,6 +146,8 @@ async function versionLocalization(versionId) {
   const attributes = {
     description: meta.description, keywords: meta.keywords, promotionalText: meta.promotionalText,
     supportUrl: meta.supportUrl, marketingUrl: meta.marketingUrl,
+    // Apple rejects "What's New" on an app's first version, and requires it on updates.
+    ...(meta.whatsNew ? { whatsNew: meta.whatsNew } : {}),
   };
   const r = await get(`/v1/appStoreVersions/${versionId}/appStoreVersionLocalizations`);
   let loc = r.data.find((l) => l.attributes.locale === meta.primaryLocale);
