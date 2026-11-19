@@ -5,6 +5,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'models.dart';
+import 'wokewarn.dart';
 
 /// Settings and caches, stored as JSON files in the app support directory.
 class Store {
@@ -34,6 +35,9 @@ class Store {
 
   /// The user's own ratings (1–10) keyed by MediaInfo.id.
   final Map<String, int> myRatings = {};
+
+  /// WokeWarn ratings keyed by MediaInfo.id (only titles WokeWarn has reviewed).
+  final Map<String, WokeRating> wokeRatings = {};
 
   static Future<Store> open() async {
     final dir = await getApplicationSupportDirectory();
@@ -68,6 +72,8 @@ class Store {
       pinned.addAll(((j['pinned'] as List?) ?? []).cast<String>());
       (j['scores'] as Map? ?? {}).forEach((k, v) => scores[k as String] = (v as num).toDouble());
       (j['myRatings'] as Map? ?? {}).forEach((k, v) => myRatings[k as String] = v as int);
+      (j['wokeRatings'] as Map? ?? {}).forEach(
+          (k, v) => wokeRatings[k as String] = WokeRating.fromJson((v as Map).cast()));
     } catch (_) {}
   }
 
@@ -84,6 +90,7 @@ class Store {
         'pinned': pinned.toList(),
         'scores': scores,
         'myRatings': myRatings,
+        'wokeRatings': {for (final e in wokeRatings.entries) e.key: e.value.toJson()},
       });
 
   /// Write to a temp file then rename, so a crash never leaves a half-written file.

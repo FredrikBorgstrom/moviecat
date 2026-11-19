@@ -63,7 +63,9 @@ jobs:
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev
 
       - run: flutter pub get
-      - run: flutter build ${{ matrix.target }} --release
+      # The WokeWarn key is a repository secret; builds without it (such as pull
+      # requests from forks) leave WokeWarn ratings out.
+      - run: flutter build ${{ matrix.target }} --release --dart-define=WOKEWARN_KEY=${{ secrets.WOKEWARN_KEY }}
 
       - name: Package (macOS)
         if: matrix.target == 'macos'

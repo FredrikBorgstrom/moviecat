@@ -13,6 +13,7 @@ import 'platform_access.dart';
 import 'providers/keyless.dart';
 import 'providers/tmdb.dart';
 import 'store.dart';
+import 'wokewarn.dart';
 
 enum ItemStatus { pending, matched, unmatched, error }
 
@@ -83,6 +84,10 @@ class Library extends ChangeNotifier {
       store.tmdbKey.isNotEmpty ? TmdbProvider(store.tmdbKey) : KeylessProvider();
 
   int? myRating(String id) => store.myRatings[id];
+
+  /// The WokeWarn rating of a title, if WokeWarn has reviewed it.
+  WokeRating? wokeRating(MediaInfo? info) =>
+      WokeWarn.enabled && info != null ? store.wokeRatings[info.id] : null;
 
   /// All titles, with groups that matched the same title merged together.
   List<LibraryItem> get items => _items ??= _buildItems();
@@ -284,6 +289,25 @@ class Library extends ChangeNotifier {
     scanning = false;
     scanMessage = null;
     _changed();
+    unawaited(refreshWokeRatings());
+  }
+
+  /// Fetches WokeWarn ratings for every identified title in the library. If WokeWarn
+  /// can't be reached, the ratings from last time stay.
+  Future<void> refreshWokeRatings() async {
+    if (!WokeWarn.enabled) return;
+    final ids = {for (final i in items) ?i.info?.id}.toList();
+    try {
+      final ratings = await WokeWarn.lookup(ids);
+      store.wokeRatings
+        ..clear()
+        ..addAll(ratings);
+    } catch (e) {
+      debugPrint('WokeWarn: $e');
+      return;
+    }
+    await store.saveLibrary();
+    _changed();
   }
 
   /// Removes strict-folder files that aren't confidently recognised.
@@ -354,6 +378,7 @@ class Library extends ChangeNotifier {
     }
     await store.saveLibrary();
     _changed();
+    unawaited(refreshWokeRatings());
   }
 
   Future<void> setMyRating(String id, int? rating) async {

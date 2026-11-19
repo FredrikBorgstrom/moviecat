@@ -53,3 +53,6 @@ appstore/asc.local.json
 
 # Cloudflare Wrangler cache
 .wrangler/
+
+# WokeWarn API key for release builds (see README)
+wokewarn.env

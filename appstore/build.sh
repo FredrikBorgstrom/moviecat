@@ -8,7 +8,8 @@ KEY_ID=$(python3 -c "import json;print(json.load(open('$CFG'))['keyId'])")
 ISSUER=$(python3 -c "import json;print(json.load(open('$CFG'))['issuerId'])")
 KEY=$(python3 -c "import json,os;print(os.path.expanduser(json.load(open('$CFG'))['keyPath']))")
 
-flutter build macos --release --config-only
+# wokewarn.env (git-ignored) holds the WokeWarn key; see the README.
+flutter build macos --release --config-only --dart-define-from-file=wokewarn.env
 rm -rf build/macos/MovieCat.xcarchive build/macos/export
 xcodebuild archive -workspace macos/Runner.xcworkspace -scheme Runner -configuration Release \
   -archivePath build/macos/MovieCat.xcarchive -allowProvisioningUpdates \

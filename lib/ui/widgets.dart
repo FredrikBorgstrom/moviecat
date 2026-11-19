@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
+import '../core/wokewarn.dart';
 import 'brand.dart';
 
 /// Poster image with a tidy placeholder while loading or when missing.
@@ -64,6 +65,43 @@ class RatingBadge extends StatelessWidget {
           style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13),
         ),
       ]),
+    );
+  }
+}
+
+/// The colours of WokeWarn's rating bands (as on wokewarn.com).
+Color wokeColor(String band) => switch (band) {
+      'none' => const Color(0xFF4CB782),
+      'mild' => const Color(0xFFA6C64B),
+      'moderate' => const Color(0xFFF2C230),
+      'strong' => const Color(0xFFF08A2C),
+      _ => const Color(0xFFE5484D),
+    };
+
+/// A small "⚠ 2.5" pill with the WokeWarn rating, coloured by band.
+class WokeBadge extends StatelessWidget {
+  final WokeRating woke;
+  const WokeBadge({super.key, required this.woke});
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: 'WokeWarn: ${woke.bandLabel} (${woke.rating.toStringAsFixed(1)}/10)',
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.75),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          Icon(Icons.warning_rounded, size: 15, color: wokeColor(woke.band)),
+          const SizedBox(width: 3),
+          Text(
+            woke.rating.toStringAsFixed(1),
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13),
+          ),
+        ]),
+      ),
     );
   }
 }

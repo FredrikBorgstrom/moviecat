@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:path/path.dart' as p;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -8,6 +8,7 @@ import '../core/filename_parser.dart';
 import '../core/library.dart';
 import '../core/models.dart';
 import '../core/platform_access.dart';
+import '../core/wokewarn.dart';
 import 'widgets.dart';
 
 class DetailDialog extends StatelessWidget {
@@ -83,6 +84,10 @@ class DetailDialog extends StatelessWidget {
             for (final r in info.ratings.entries) RatingBadge(rating: r.value, label: r.key),
             if (info.ratings.isEmpty) Text('No rating available', style: t.bodySmall),
           ]),
+          if (library.wokeRating(info) case final woke?) ...[
+            const SizedBox(height: 16),
+            _WokeSection(woke: woke),
+          ],
           const SizedBox(height: 16),
           Text('My rating', style: t.labelLarge),
           const SizedBox(height: 4),
@@ -250,6 +255,37 @@ class DetailDialog extends StatelessWidget {
     if (context.mounted && !library.items.any((i) => i.keys.any(item.keys.contains))) {
       Navigator.pop(context);
     }
+  }
+}
+
+/// The WokeWarn rating, its spoiler-free verdict and a link to the full review.
+class _WokeSection extends StatelessWidget {
+  final WokeRating woke;
+  const _WokeSection({required this.woke});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text('Woke rating', style: t.labelLarge),
+      const SizedBox(height: 6),
+      Row(children: [
+        WokeBadge(woke: woke),
+        const SizedBox(width: 8),
+        Text(woke.bandLabel, style: t.titleSmall?.copyWith(color: wokeColor(woke.band))),
+      ]),
+      if (woke.verdict.isNotEmpty) ...[
+        const SizedBox(height: 6),
+        Text(woke.verdict, style: t.bodyMedium),
+      ],
+      TextButton.icon(
+        style: TextButton.styleFrom(padding: EdgeInsets.zero),
+        onPressed: () => launchUrl(Uri.parse(
+            '${woke.url}?utm_source=moviecat&utm_medium=partner&utm_campaign=moviecat_app')),
+        icon: const Icon(Icons.open_in_new, size: 18),
+        label: const Text('Read the review on WokeWarn'),
+      ),
+    ]);
   }
 }
 

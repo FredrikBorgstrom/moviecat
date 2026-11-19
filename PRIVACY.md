@@ -1,6 +1,6 @@
 # MovieCat Privacy Policy
 
-_Last updated: 17 October 2026_
+_Last updated: 19 November 2026_
 
 MovieCat is made by AB Cx3. It is designed to keep your data on your computer.
 
@@ -22,6 +22,8 @@ To recognise a title, MovieCat sends the title (and year) it reads from a file n
 - Cinemeta (strem.io / metahub.space)
 - TVmaze (tvmaze.com)
 - TMDB (themoviedb.org), only if you add your own TMDB API key
+
+To show woke ratings, MovieCat sends the IMDb ids (or TMDB ids) of the titles it has recognised to WokeWarn (wokewarn.com), which answers with the ratings of those it has reviewed. WokeWarn does not store the ids.
 
 File paths, folder names and other file contents are never sent. These services may log requests (including your IP address) according to their own privacy policies.
 

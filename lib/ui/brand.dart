@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// The orange of the MovieCat logo and icon.
 const brandOrange = Color(0xFFFD6F10);

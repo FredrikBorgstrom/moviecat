@@ -1,11 +1,12 @@
 import 'package:file_selector/file_selector.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path/path.dart' as p;
 
 import '../core/filename_parser.dart';
 import '../core/library.dart';
 import '../core/platform_access.dart';
+import '../core/wokewarn.dart';
 import 'brand.dart';
 import 'detail_dialog.dart';
 import 'discovery_dialog.dart';
@@ -15,7 +16,7 @@ import 'widgets.dart';
 
 enum _Filter { all, movies, series, unmatched }
 
-enum _Sort { title, year, modified, rating, myRating }
+enum _Sort { title, year, modified, rating, myRating, wokeLeast, wokeMost }
 
 class LibraryPage extends StatefulWidget {
   final Library library;
@@ -29,6 +30,9 @@ class _LibraryPageState extends State<LibraryPage> {
   _Filter _filter = _Filter.all;
   _Sort _sort = _Sort.title;
   String _query = '';
+
+  /// WokeWarn bands to show ('unrated' for titles without a review); empty shows all.
+  final Set<String> _woke = {};
 
   Library get lib => widget.library;
 
@@ -58,6 +62,10 @@ class _LibraryPageState extends State<LibraryPage> {
           if (i.status == ItemStatus.matched) return false;
         case _Filter.all:
       }
+      if (_woke.isNotEmpty &&
+          !_woke.contains(lib.wokeRating(i.info)?.band ?? 'unrated')) {
+        return false;
+      }
       if (q.isEmpty) return true;
       return normalizeTitle(i.displayTitle).contains(q) ||
           normalizeTitle(i.parsed.title).contains(q);
@@ -66,6 +74,7 @@ class _LibraryPageState extends State<LibraryPage> {
     int byTitle(LibraryItem a, LibraryItem b) =>
         _sortTitle(a.displayTitle).compareTo(_sortTitle(b.displayTitle));
     int desc(num? a, num? b) => (b ?? -1).compareTo(a ?? -1);
+    int asc(num? a, num? b) => (a ?? 99).compareTo(b ?? 99);
     items.sort((a, b) {
       final r = switch (_sort) {
         _Sort.title => 0,
@@ -78,6 +87,14 @@ class _LibraryPageState extends State<LibraryPage> {
         _Sort.myRating => desc(
           a.info == null ? null : lib.myRating(a.info!.id),
           b.info == null ? null : lib.myRating(b.info!.id),
+        ),
+        _Sort.wokeLeast => asc(
+          lib.wokeRating(a.info)?.rating,
+          lib.wokeRating(b.info)?.rating,
+        ),
+        _Sort.wokeMost => desc(
+          lib.wokeRating(a.info)?.rating,
+          lib.wokeRating(b.info)?.rating,
         ),
       };
       return r != 0 ? r : byTitle(a, b);
@@ -164,27 +181,37 @@ class _LibraryPageState extends State<LibraryPage> {
                         tooltip: 'Sort',
                         initialValue: _sort,
                         onSelected: (s) => setState(() => _sort = s),
-                        itemBuilder: (_) => const [
-                          PopupMenuItem(
+                        itemBuilder: (_) => [
+                          const PopupMenuItem(
                             value: _Sort.title,
                             child: Text('Title'),
                           ),
-                          PopupMenuItem(
+                          const PopupMenuItem(
                             value: _Sort.year,
                             child: Text('Year (newest)'),
                           ),
-                          PopupMenuItem(
+                          const PopupMenuItem(
                             value: _Sort.modified,
                             child: Text('Date modified (newest)'),
                           ),
-                          PopupMenuItem(
+                          const PopupMenuItem(
                             value: _Sort.rating,
                             child: Text('Rating (highest)'),
                           ),
-                          PopupMenuItem(
+                          const PopupMenuItem(
                             value: _Sort.myRating,
                             child: Text('My rating (highest)'),
                           ),
+                          if (WokeWarn.enabled) ...const [
+                            PopupMenuItem(
+                              value: _Sort.wokeLeast,
+                              child: Text('Woke rating (least woke)'),
+                            ),
+                            PopupMenuItem(
+                              value: _Sort.wokeMost,
+                              child: Text('Woke rating (most woke)'),
+                            ),
+                          ],
                         ],
                         child: Chip(
                           avatar: const Icon(Icons.sort, size: 18),
@@ -195,10 +222,13 @@ class _LibraryPageState extends State<LibraryPage> {
                               _Sort.modified => 'Date modified',
                               _Sort.rating => 'Rating',
                               _Sort.myRating => 'My rating',
+                              _Sort.wokeLeast => 'Least woke',
+                              _Sort.wokeMost => 'Most woke',
                             }}',
                           ),
                         ),
                       ),
+                      if (WokeWarn.enabled) _wokeFilter(),
                       Text(
                         '${lib.items.length} titles',
                         style: TextStyle(color: c.onSurfaceVariant),
@@ -215,6 +245,54 @@ class _LibraryPageState extends State<LibraryPage> {
             ],
           ],
         ),
+      ),
+    );
+  }
+
+  /// Shows titles by WokeWarn band; several bands can be ticked at once.
+  Widget _wokeFilter() {
+    String name(String id) => id == 'unrated'
+        ? 'Not reviewed'
+        : wokeBands.firstWhere((b) => b.id == id).label;
+    void toggle(String id) =>
+        setState(() => _woke.contains(id) ? _woke.remove(id) : _woke.add(id));
+    return MenuAnchor(
+      menuChildren: [
+        for (final b in wokeBands)
+          CheckboxMenuButton(
+            value: _woke.contains(b.id),
+            closeOnActivate: false,
+            onChanged: (_) => toggle(b.id),
+            child: Row(
+              children: [
+                Icon(Icons.circle, size: 10, color: wokeColor(b.id)),
+                const SizedBox(width: 8),
+                Text('${b.label} (${b.range})'),
+              ],
+            ),
+          ),
+        CheckboxMenuButton(
+          value: _woke.contains('unrated'),
+          closeOnActivate: false,
+          onChanged: (_) => toggle('unrated'),
+          child: const Text('Not reviewed'),
+        ),
+        const Divider(height: 1),
+        MenuItemButton(
+          onPressed: _woke.isEmpty ? null : () => setState(_woke.clear),
+          child: const Text('Show all'),
+        ),
+      ],
+      builder: (context, menu, _) => ActionChip(
+        avatar: const Icon(Icons.warning_amber_rounded, size: 18),
+        label: Text(
+          'Woke: ${switch (_woke.length) {
+            0 => 'Any',
+            1 => name(_woke.first),
+            final n => '$n selected',
+          }}',
+        ),
+        onPressed: () => menu.isOpen ? menu.close() : menu.open(),
       ),
     );
   }
@@ -434,6 +512,7 @@ class _PosterCard extends StatelessWidget {
     final info = item.info;
     final rating = info?.primaryRating;
     final mine = info == null ? null : library.myRating(info.id);
+    final woke = library.wokeRating(info);
     final episodes = item.files.length;
 
     final subtitle = [
@@ -477,6 +556,8 @@ class _PosterCard extends StatelessWidget {
                       right: 6,
                       child: RatingBadge(rating: rating.value),
                     ),
+                  if (woke != null)
+                    Positioned(top: 6, left: 6, child: WokeBadge(woke: woke)),
                   if (item.status == ItemStatus.pending)
                     const Positioned(
                       top: 8,
@@ -508,11 +589,7 @@ class _PosterCard extends StatelessWidget {
               padding: const EdgeInsets.only(top: 2),
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.star_rounded,
-                    size: 15,
-                    color: brandOrange,
-                  ),
+                  const Icon(Icons.star_rounded, size: 15, color: brandOrange),
                   const SizedBox(width: 3),
                   Text('My rating $mine', style: t.bodySmall),
                 ],
